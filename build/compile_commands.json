@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/russellg/projects/Modular-ECS/build/test",
+  "command": "/usr/bin/clang++    -I/home/russellg/projects/Modular-ECS/include  -g   -std=gnu++14 -o CMakeFiles/mod_ecs_test.dir/num_components.cpp.o -c /home/russellg/projects/Modular-ECS/test/num_components.cpp",
+  "file": "/home/russellg/projects/Modular-ECS/test/num_components.cpp"
+}
+]

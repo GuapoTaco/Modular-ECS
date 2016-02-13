@@ -1,0 +1,1 @@
+/usr/bin/clang++   -g   CMakeFiles/num_components.dir/num_components.cpp.o  -o num_components -rdynamic 
