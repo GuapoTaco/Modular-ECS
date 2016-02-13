@@ -1,1 +1,0 @@
-/usr/bin/clang++   -g   CMakeFiles/mod_ecs_test.dir/num_components.cpp.o  -o mod_ecs_test -rdynamic 
