@@ -5,17 +5,20 @@
 
 #include "Entity.h"
 
-template <typename Iterable, typename T>
-constexpr auto get_index_of_first_matching(Iterable iterable, T element) {
-	
-	auto size = boost::hana::size(boost::hana::drop_while(iterable, [&element](auto drop_test)
-		{
-			return drop_test != element;
-		}));
+
+struct get_index_of_first_matching_t
+{
+	template<typename Iterable, typename T>
+	constexpr auto operator()(Iterable iterable, T element) const
+	{
+		using boost::hana::_;
+		
+		auto size = boost::hana::size(boost::hana::drop_while(iterable, [&element](auto elem){ return elem != element; } ));
 	
 	return boost::hana::size(iterable) - size;
-	
-}
+	}
+};
+constexpr get_index_of_first_matching_t get_index_of_first_matching{};
 
 
 

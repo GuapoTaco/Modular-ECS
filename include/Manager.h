@@ -1,3 +1,6 @@
+/// \brief This defines the Manager class
+/// \author Russell Greene
+
 #pragma once
 
 #include <boost/hana.hpp>
@@ -8,7 +11,7 @@
 #include <type_traits>
 #include <deque>
 #include <cassert>
-#include <unordered_map>
+#include <iostream>
 
 #include "SegmentedMap.h"
 
@@ -18,9 +21,12 @@
 
 #undef max
 
+/// \brief The templated class that holds custom storage for managers
+/// Just override the template for your manager to use this!
 template<typename T>
 struct ManagerData{};
 
+/// \brief Convenience function that creates a boost::hana::tuple of boost::hana::type_c<>s from a list of types
 template<typename... T>
 constexpr auto make_type_tuple = boost::hana::make_tuple(boost::hana::type_c<T>...);
 
@@ -61,81 +67,103 @@ auto removeTypeAddPtr = [](auto arg)
 	{
 		return (typename decltype(arg)::type*){};
 	};
-auto getAllManagers = [](auto arg)
+auto getAllManagers = [](auto running, auto arg)
 	{
-		return decltype(arg)::type::allManagers;
+		return boost::hana::concat(decltype(arg)::type::allManagers(), running);
 	};
 auto getAllComponents = [](auto arg)
 	{
-		return decltype(arg)::type::allComponents;
+		return decltype(arg)::type::allComponents();
 	};
 }
 }
 
-
+/// \brief For distinguising if a class is a manager at all
 struct ManagerBase{};
 
+
+/// \brief The core class of the library; Defines components, 
 template <typename Components_, typename Bases_ = boost::hana::tuple<> >
 struct Manager : ManagerBase
 {
 	static_assert(decltype(is_tuple<Components_>())::value, "Components_ must be a boost::hana::tuple");
 	static_assert(decltype(is_tuple<Bases_>())::value, "Bases_ must be a boost::hana::tuple");
 	
+	
+	using myComponents_t = decltype(boost::hana::make<Components_>());
+	static constexpr auto myComponents() { return myComponents_t{}; }
+	
+	using myBases_t = decltype(boost::hana::make<Bases_>());
+	static constexpr auto myBases() { return myBases_t{}; }
+	
+	using allManagers_t = decltype(boost::hana::append(remove_dups(boost::hana::concat(
+		boost::hana::fold(myBases(), boost::hana::make_tuple(), detail::lambdas::getAllManagers), myBases())) , boost::hana::type_c<Manager>));
+	static constexpr auto allManagers() { return allManagers_t{}; }
+	
+	using allComponents_t = decltype(remove_dups(boost::hana::concat(boost::hana::fold(boost::hana::transform(myBases(), detail::lambdas::getAllComponents), 
+		boost::hana::make_tuple(), boost::hana::concat), myComponents()))); 
+	static constexpr auto allComponents() { return allComponents_t{}; }
+	
+	using myStorageComponents_t = decltype(boost::hana::fold(myComponents(), boost::hana::make_tuple(), detail::lambdas::myStorageComponents_LAM));
+	static constexpr auto myStorageComponents() { return myStorageComponents_t{}; }
+	
+	using myTagComponents_t = decltype(boost::hana::fold(myComponents(), boost::hana::make_tuple(), detail::lambdas::myTagComponents_LAM));
+	static constexpr auto myTagComponents() { return myTagComponents_t{}; }
+	
+	using allStorageComponents_t = decltype(boost::hana::fold(allComponents(), boost::hana::make_tuple(), detail::lambdas::allStorageComponents_LAM));
+	static constexpr auto allStorageComponents() { return allStorageComponents_t{}; }
+
+	using allTagComponents_t = decltype(boost::hana::fold(allComponents(), boost::hana::make_tuple(), detail::lambdas::allTagComponents_LAM));
+	static constexpr auto allTagComponents() { return allTagComponents_t{}; }
+
+	// STATIC CHECKS
+	////////////////
+	
 	// make sure there are no duplicates in the components
+	static_assert(decltype(boost::hana::size(myComponents()) == boost::hana::size(remove_dups(myComponents())))::value, "Don't pass the same component twice to the manager!");
 	
-	
-	static constexpr auto myComponents = boost::hana::make<Components_>();
-	static constexpr auto myBases = boost::hana::make<Bases_>();
-	using This_t = Manager<Components_, Bases_>;
-	
-	static constexpr auto allManagers = decltype(boost::hana::append(remove_dups(boost::hana::concat(boost::hana::fold(
-		boost::hana::transform(myBases, detail::lambdas::getAllManagers), boost::hana::make_tuple(), boost::hana::concat), myBases)) , boost::hana::type_c<This_t>)){};
-
-	static constexpr auto allComponents = decltype(remove_dups(boost::hana::concat(boost::hana::fold(boost::hana::transform(myBases, detail::lambdas::getAllComponents), 
-		boost::hana::make_tuple(), boost::hana::concat), myComponents))){}; 
-
-	static constexpr auto myStorageComponents = decltype(boost::hana::fold(myComponents, boost::hana::make_tuple(), detail::lambdas::myStorageComponents_LAM)){};
-	static constexpr auto myTagComponents = decltype(boost::hana::fold(myComponents, boost::hana::make_tuple(), detail::lambdas::myTagComponents_LAM)){};
-	static constexpr auto allStorageComponents = decltype(boost::hana::fold(allComponents, boost::hana::make_tuple(), detail::lambdas::allStorageComponents_LAM)){};
-	static constexpr auto allTagComponents = decltype(boost::hana::fold(allComponents, boost::hana::make_tuple(), detail::lambdas::allTagComponents_LAM)){};
-
 	template<typename... Args>
 	using TupleOfPtrs = std::tuple<Args*...>;
 
 	// CONSTEXPR FUNCTIONS/TESTS
 
 
-	static constexpr auto numComponents = boost::hana::size(allComponents);
+	using numComponents_t = decltype(boost::hana::size(allComponents()));
+	static constexpr auto numComponents() { return numComponents_t{}; }
 	
-	static constexpr auto numMyComponents = boost::hana::size(myComponents);
+	using numMyComponents_t = decltype(boost::hana::size(myComponents()));
+	static constexpr auto numMyComponents() { return numMyComponents_t{}; }
 	
 	template<typename T> 
 	static constexpr auto isComponent(T componentToTest)
 	{
-		return boost::hana::contains(allComponents, componentToTest);
+		return boost::hana::contains(allComponents(), componentToTest);
 	}
 	template<typename T> 
 	static constexpr auto isMyComponent(T componentToTest)
 	{
-		return boost::hana::contains(myComponents, componentToTest);
+		return boost::hana::contains(myComponents(), componentToTest);
 	}
 	template <typename T> 
 	static constexpr auto getComponentID(T component)
 	{
 		BOOST_HANA_CONSTANT_CHECK(isComponent(component));
 		
-		return get_index_of_first_matching(allComponents, component);
+		return get_index_of_first_matching(allComponents(), component);
 	}
 	template <typename T> 
 	static constexpr auto getMyComponentID(T component)
 	{
 		BOOST_HANA_CONSTANT_CHECK(isComponent(component));
 		
-		return get_index_of_first_matching(myComponents, component);
+		return get_index_of_first_matching(myComponents(), component);
 	}
 
-	static constexpr auto numStorageComponents = boost::hana::size(allStorageComponents);
-	static constexpr auto numMyStorageComponents = boost::hana::size(allStorageComponents);
+	using numStorageComponents_t = decltype(boost::hana::size(allStorageComponents()));
+	static constexpr auto numStorageComponents() { return numStorageComponents_t{}; }
+	
+	using numMyStorageComponents_t = decltype(boost::hana::size(allStorageComponents()));
+	static constexpr auto numMyStorageComponents() { return numMyStorageComponents_t{}; }
 	
 	template<typename T> 
 	static constexpr auto isStorageComponent(T componentToTest)
@@ -145,71 +173,80 @@ struct Manager : ManagerBase
 	template<typename T> 
 	static constexpr auto isMyStorageComponent(T componentToTest)
 	{
-		return boost::hana::contains(myStorageComponents, componentToTest);
+		return boost::hana::contains(myStorageComponents(), componentToTest);
 	}
 	template <typename T> 
 	static constexpr auto getMyStorageComponentID(T component)
 	{
 		BOOST_HANA_CONSTANT_CHECK(isStorageComponent(component));
 		
-		return get_index_of_first_matching(myStorageComponents, component);
+		return get_index_of_first_matching(myStorageComponents(), component);
 	}
 	template <typename T> 
 	static constexpr auto getStorageComponentID(T component)
 	{
 		BOOST_HANA_CONSTANT_CHECK(isStorageComponent(component));
 		
-		return get_index_of_first_matching(allStorageComponents, component);
+		return get_index_of_first_matching(allStorageComponents(), component);
 	}
 	
 	template<typename T> 
 	static constexpr auto isTagComponent(T componentToTest)
 	{
-		return boost::hana::contains(allTagComponents, componentToTest);
+		return boost::hana::contains(allTagComponents(), componentToTest);
 	}
 	template<typename T> 
 	static constexpr auto isMyTagComponent(T componentToTest)
 	{
-		return boost::hana::contains(myTagComponents, componentToTest);
+		return boost::hana::contains(myTagComponents(), componentToTest);
 	}
 	template <typename T> 
 	static constexpr auto getTagComponentID(T component)
 	{
 		BOOST_HANA_CONSTANT_CHECK(isTagComponent(component));
 		
-		return get_index_of_first_matching(allTagComponents, component);
+		return get_index_of_first_matching(allTagComponents(), component);
 	}
 	
-	static constexpr auto numManagers = boost::hana::size(allManagers);
+	using numManagers_t = decltype(boost::hana::size(allManagers()));
+	static constexpr auto numManagers() { return numManagers_t{}; }
 	
 	template<typename T>
 	static constexpr auto isManager(T toTest)
 	{
 	//	static_assert(std::is_base_of<ManagerBase, typename decltype(toTest)::type>::value, "Error, needs to be a manager");
 		
-		return boost::hana::contains(allManagers, toTest);
+		constexpr auto toTest_type = T{};
+		
+		return boost::hana::contains(allManagers(), toTest_type);
 	}
 	template <typename T> 
 	static constexpr auto getManagerID(T manager)
 	{
 		BOOST_HANA_CONSTANT_CHECK(isManager(manager));  
 		
-		return get_index_of_first_matching(allManagers, manager);
+		// force a constexpr context
+		constexpr auto manager_type = T{};
+		
+		return get_index_of_first_matching(allManagers(), manager_type);
 	}
 	template<typename T> 
 	static constexpr auto isBase(T baseToTest)
 	{
-		return boost::hana::contains(myBases, baseToTest);
+		return boost::hana::contains(myBases(), baseToTest);
 	}
 
-	static constexpr auto numBases = boost::hana::size(myBases);
+	static constexpr auto numBases = boost::hana::size(myBases());
 	
 	template <typename T> 
 	static constexpr auto getBaseID(T base)
 	{
 		BOOST_HANA_CONSTANT_CHECK(isBase(base));
 		
-		return get_index_of_first_matching(myBases, base);
+		// to force a constexpr context
+		constexpr auto base_type = T{};
+		
+		return get_index_of_first_matching(myBases(), base_type);
 	}
 	
 	template<typename T>
@@ -223,7 +260,7 @@ struct Manager : ManagerBase
 	{
 		BOOST_HANA_CONSTANT_CHECK(isComponent(component));
 		
-		return boost::hana::fold(allManagers, boost::hana::type_c<boost::hana::none_t>, [component](auto last, auto toTest)
+		return boost::hana::fold(allManagers(), boost::hana::type_c<boost::hana::none_t>, [component](auto last, auto toTest)
 			{
 				return boost::hana::if_(decltype(toTest)::type::isMyComponent(component), toTest, last);
 			}
@@ -263,7 +300,7 @@ struct Manager : ManagerBase
 	static constexpr auto findDirectBaseManagerForSignature(T signature)
 	{
 		
-		return boost::hana::fold(myBases, boost::hana::type_c<This_t>, [&signature](auto toTest, auto currentRet)
+		return boost::hana::fold(myBases(), boost::hana::type_c<Manager>, [&signature](auto toTest, auto currentRet)
 			{
 				return boost::hana::if_(decltype(toTest)::type::isSignature(signature), toTest, currentRet);
 			}
@@ -275,7 +312,7 @@ struct Manager : ManagerBase
 	{
 		using namespace boost::hana::literals;
 		auto ret = boost::hana::while_([](auto pair){ return pair[0_c] != pair[1_c]; }, 
-			boost::hana::make_tuple(boost::hana::type_c<This_t>, findDirectBaseManagerForSignature(signature)), [&signature](auto tup)
+			boost::hana::make_tuple(boost::hana::type_c<Manager>, findDirectBaseManagerForSignature(signature)), [&signature](auto tup)
 			{
 				return boost::hana::make_tuple(tup[1_c], decltype(tup[0_c])::type::findDirectBaseManagerForSignature(signature)); 
 			}
@@ -286,7 +323,7 @@ struct Manager : ManagerBase
 		
 	}
 	
-	using RuntimeSignature_t = std::bitset<This_t::numComponents>;
+	using RuntimeSignature_t = std::bitset<numComponents()>;
 
 	template<typename T>
 	static RuntimeSignature_t generateRuntimeSignature(T signature)
@@ -313,7 +350,7 @@ struct Manager : ManagerBase
 		
 		entityStorage.emplace_back();
 		const size_t newEntityIndex = entityStorage.size() - 1;
-		Entity<This_t>& newEntityRef = entityStorage[newEntityIndex];
+		Entity<Manager>& newEntityRef = entityStorage[newEntityIndex];
 		newEntityRef.signature = generateRuntimeSignature(signature);
 		newEntityRef.ID = newEntityIndex;
 		newEntityRef.bases[boost::hana::size(newEntityRef.bases) - boost::hana::size_c<1>] = &newEntityRef;
@@ -378,13 +415,13 @@ struct Manager : ManagerBase
 	{
 		// TODO: implement
 	}
-	void destroyEntity(Entity<This_t>* handle)
+	void destroyEntity(Entity<Manager>* handle)
 	{
 		handle->destroy();
 	}
 
 	template<typename T>
-	auto getStorageComponent(T component, Entity<This_t>* handle) -> typename decltype(component)::type&
+	auto getStorageComponent(T component, Entity<Manager>* handle) -> typename decltype(component)::type&
 	{
 		BOOST_HANA_CONSTANT_CHECK(isStorageComponent(component));
 		
@@ -397,7 +434,7 @@ struct Manager : ManagerBase
 	}
 
 	template<typename T>
-	bool hasComponent(T component, Entity<This_t>* entity)
+	bool hasComponent(T component, Entity<Manager>* entity)
 	{
 		BOOST_HANA_CONSTANT_CHECK(isComponent(component));
 		
@@ -411,7 +448,7 @@ struct Manager : ManagerBase
 
 	
 	template<typename T>
-	static auto getEntityPtr(T managerToGet, Entity<This_t>* ent) -> Entity<typename decltype(managerToGet)::type>*
+	static auto getEntityPtr(T managerToGet, Entity<Manager>* ent) -> Entity<typename decltype(managerToGet)::type>*
 	{
 		BOOST_HANA_CONSTANT_CHECK(isManager(managerToGet));
 		
@@ -442,7 +479,7 @@ struct Manager : ManagerBase
 
 
 	template<typename T>
-	std::vector<Entity<This_t>*>& getComponentEntityStorage(T component)
+	std::vector<Entity<Manager>*>& getComponentEntityStorage(T component)
 	{
 		BOOST_HANA_CONSTANT_CHECK(isComponent(component));
 		
@@ -453,11 +490,9 @@ struct Manager : ManagerBase
 		return getRefToManager(manager).componentEntityStorage[ID];
 	}
 
-public:
-
 	// CALLING FUNCTIONS ON ENTITIES
 	template<typename T, typename F>
-	void callFunctionWithSigParams(Entity<This_t>* ent, T signature, F&& func)
+	void callFunctionWithSigParams(Entity<Manager>* ent, T signature, F&& func)
 	{
 		// get components and put them in a tuple
 		
@@ -495,7 +530,7 @@ public:
 		const auto runtimeSig = generateRuntimeSignature(signature);
 		constexpr auto sigStorageCompsOnly = decltype(isolateStorageComponents(signature)){};
 		
-		for(Entity<This_t>& entity : entityVector)
+		for(Entity<Manager>& entity : entityVector)
 		{
 			if((runtimeSig & entity.signature) == runtimeSig) 
 			{
@@ -504,13 +539,13 @@ public:
 		}
 	}
 
-	ManagerData<This_t> myManagerData;
+	ManagerData<Manager> myManagerData;
 
 	// storage for the actual components
-	decltype(boost::hana::transform(myStorageComponents, detail::lambdas::removeTypeAddSegmentedMap)) storageComponentStorage;
-	std::array<std::vector<size_t>, This_t::numMyComponents> componentEntityStorage;
-	decltype(boost::hana::transform(allManagers, detail::lambdas::removeTypeAddPtr)) basePtrStorage;
-	std::vector<Entity<This_t>> entityStorage;
+	decltype(boost::hana::transform(myStorageComponents(), detail::lambdas::removeTypeAddSegmentedMap)) storageComponentStorage;
+	std::array<std::vector<size_t>, numMyComponents()> componentEntityStorage;
+	decltype(boost::hana::transform(allManagers(), detail::lambdas::removeTypeAddPtr)) basePtrStorage;
+	std::vector<Entity<Manager>> entityStorage;
 	std::deque<size_t> freeEntitySlots;
 	
 	bool hasBegunPlay = false;
@@ -518,40 +553,52 @@ public:
 	
 	size_t tickNumber = 0;
 	
-	ManagerData<This_t>& getManagerData()
+	ManagerData<Manager>& getManagerData()
 	{
 		return myManagerData;
 	}
 
 
-	Manager(const decltype(boost::hana::transform(myBases, detail::lambdas::removeTypeAddPtr))& bases = decltype(bases){})
+	Manager(const decltype(boost::hana::transform(myBases(), detail::lambdas::removeTypeAddPtr))& bases = {})
 	{
 		using namespace boost::hana::literals;
 		
-		assert(boost::hana::all_of(bases, [](auto ptr){ return ptr != 0; }));
-		
-		auto tempBases = boost::hana::remove_at(basePtrStorage, boost::hana::size(basePtrStorage) - boost::hana::size_c<1>);
+		// we don't need to assign this, it is just this!
+		auto tempBases = boost::hana::drop_back(basePtrStorage);
 		
 		boost::hana::for_each(tempBases, [&bases](auto& baseToSet)
 			{
-				
-				auto constexpr managerType = boost::hana::type_c<std::remove_pointer_t<std::decay_t<decltype(baseToSet)>>>;
-				BOOST_HANA_CONSTANT_CHECK(isManager(managerType));
-				
-				auto hasBase = [&managerType](auto typeToCheck)
+			
+				// get a hana type_c of the basetoset
+				auto constexpr baseToSet_type = boost::hana::type_c<std::remove_pointer_t<std::decay_t<decltype(baseToSet)>>>;
+				BOOST_HANA_CONSTANT_CHECK(isManager(baseToSet_type));
+			
+				// a lambda that checks if a contains the base we want
+				auto hasBase = [&baseToSet_type](auto typeToCheck)
 				{
-					return decltype(typeToCheck)::type::isManager(managerType);
+					return decltype(typeToCheck)::type::isManager(baseToSet_type);
 				};
 				
-				constexpr auto directBaseThatHasPtr = boost::hana::find_if(myBases, hasBase);
-				BOOST_HANA_CONSTANT_CHECK(boost::hana::is_just(directBaseThatHasPtr));
+				constexpr auto directBaseThatHasPtr_opt = decltype(boost::hana::find_if(myBases(), hasBase)){};
+				BOOST_HANA_CONSTANT_CHECK(boost::hana::is_just(directBaseThatHasPtr_opt));
 				
-				baseToSet = &bases[getBaseID(*directBaseThatHasPtr)]->getRefToManager(managerType);
-				return directBaseThatHasPtr;
+				constexpr auto directBaseThatHasPtr = *directBaseThatHasPtr_opt;
+				BOOST_HANA_CONSTANT_CHECK(isBase(directBaseThatHasPtr));
+				
+				constexpr auto directBaseThatHasPtrID = decltype(Manager::getBaseID(directBaseThatHasPtr)){};
+				
+				baseToSet = &(bases[directBaseThatHasPtrID]->getRefToManager(baseToSet_type));
+				
+				if(!baseToSet)
+				{
+					std::cerr << "Could not find base: " << typeid(baseToSet).name() << 
+						"; Did you forget to add it in the constructor?" << std::endl;
+					std::terminate();
+				}
 			});
 		
 		
-		basePtrStorage = boost::hana::append(tempBases, this);		
+		basePtrStorage = boost::hana::append(tempBases, this);
 		
 	}
 

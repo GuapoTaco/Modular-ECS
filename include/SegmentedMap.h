@@ -80,10 +80,10 @@ public:
 	SegmentedMap(ForwardIterator begin, ForwardIterator end, const key_compare& comp_ = key_compare{})
 		:comp{comp_}
 	{
-		for(; begin != end; ++begin)
-		{
-			operator[](begin->first) = begin->second;
-		}
+// 		for(; begin != end; ++begin)
+// 		{
+// 			operator[](begin->first) = begin->second;
+// 		}
 	}
 	
 	// copy constructor
@@ -108,19 +108,22 @@ public:
 	// copy assignment operator
 	SegmentedMap& operator=(const SegmentedMap& other)
 	{
-		alloc_and_storage.second() = other.alloc_and_storage.second();
+		//alloc_and_storage.second() = other.alloc_and_storage.second();
+		return *this;
 	}
 	
 	// move assignment operator
 	SegmentedMap& operator=(SegmentedMap&& other)
 	{
-		alloc_and_storage.second() = std::move(other.alloc_and_storage.second());
+		//alloc_and_storage.second() = std::move(other.alloc_and_storage.second());
+		return *this;
 	}
 	
 	// initializer_list assignment operator
 	SegmentedMap& operator=(std::initializer_list<value_type> il)
 	{
-		*this = SegmentedMap{il};
+		//*this = SegmentedMap{il};
+		return *this;
 	}
 	
 	// comparision operators
@@ -268,14 +271,58 @@ public:
 	// ITERATOR ACCESS
 	//////////////////
 	
-	iterator begin();
-	iterator end();
+	iterator begin()
+	{
+		auto vec_it = alloc_and_storage.second().begin();
+		while(!*vec_it) ++vec_it;
+		
+		auto arr_it = 0;
+		while(!(*vec_it)[arr_it]) ++arr_it;
+		
+		return {std::distance(alloc_and_storage.second().begin(), vec_it) * segment_size + arr_it, this};
+	}
+	iterator end()
+	{
+		auto vec_it = alloc_and_storage.second().end();
+		while(!*vec_it) --vec_it;
+		
+		auto arr_it = segment_size - 1;
+		while(!(*vec_it)[arr_it]) --arr_it;
+		
+		return {std::distance(alloc_and_storage.second().begin(), vec_it) * segment_size + arr_it, this};
+	}
 	
-	const_iterator begin() const;
-	const_iterator end() const;
+	const_iterator begin() const
+	{
+		auto vec_it = alloc_and_storage.second().begin();
+		while(!*vec_it) ++vec_it;
+		
+		auto arr_it = 0;
+		while(!(*vec_it)[arr_it]) ++arr_it;
+		
+		return {std::distance(alloc_and_storage.second().begin(), vec_it) * segment_size + arr_it, this};
+
+	}
+	const_iterator end() const
+	{
+		auto vec_it = alloc_and_storage.second().end();
+		while(!*vec_it) --vec_it;
+		
+		auto arr_it = segment_size - 1;
+		while(!(*vec_it)[arr_it]) --arr_it;
+		
+		return {std::distance(alloc_and_storage.second().begin(), vec_it) * segment_size + arr_it, this};
+
+	}
 	
-	const_iterator cbegin() const;
-	const_iterator cend() const;
+	const_iterator cbegin() const
+	{
+		return begin();
+	}
+	const_iterator cend() const
+	{
+		return end();
+	}
 	
 	///////////////////////
 	// ACCESS AND INSERTION
@@ -323,13 +370,13 @@ public:
 		size_t id_in_segment = value.first % segment_size;
 		
 		// see if we need to allocate more on our vector
-		if(alloc_and_storage.second().size() >= segment_id)
-		{
-			alloc_and_storage.second().resize(segment_id + 1);
-			
-		}
+// 		if(alloc_and_storage.second().size() >= segment_id)
+// 		{
+// 			alloc_and_storage.second().resize(segment_id + 1);
+// 			
+// 		}
 		
-		std::unique_ptr<internal_array_type>& arrayPtr = alloc_and_storage.second()[segment_id];
+		/*auto&& arrayPtr = alloc_and_storage.second()[segment_id];
 		// see if we need to allocate a new array
 		if(!arrayPtr)
 		{
@@ -342,7 +389,7 @@ public:
 			return {{value.first, this}, false};
 		}
 		(*arrayPtr)[id_in_segment] = value.second;
-		return {{value.first, this}, true};
+		*/return {{value.first, this}, true};
 	}
 	template<typename P, typename = std::enable_if_t<std::is_constructible<value_type, P&&>::value>> 
 	std::pair<iterator, bool> insert(P&& value)
@@ -379,25 +426,25 @@ public:
 		size_t id_in_segment = k % segment_size;
 		
 		// see if we need to allocate more on our vector
-		if(alloc_and_storage.second().size() >= segment_id)
-		{
-			alloc_and_storage.second().resize(segment_id + 1);
-			
-		}
+// 		if(alloc_and_storage.second().size() >= segment_id)
+// 		{
+// 			alloc_and_storage.second().resize(segment_id + 1);
+// 			
+// 		}
 		
-		std::unique_ptr<internal_array_type>& arrayPtr = alloc_and_storage.second()[segment_id];
+//		auto&& arrayPtr = alloc_and_storage.second()[segment_id];
 		// see if we need to allocate a new array
-		if(!arrayPtr)
-		{
-			arrayPtr = std::make_unique<internal_array_type>();
-		}
-		
-		(*arrayPtr)[id_in_segment] = obj;
-		// insert the element
-		if((*arrayPtr)[id_in_segment])
-		{
-			return {{k, this}, false};
-		}
+// 		if(!arrayPtr)
+// 		{
+// 			arrayPtr = std::make_unique<internal_array_type>();
+// 		}
+// 		
+// 		(*arrayPtr)[id_in_segment] = obj;
+// 		// insert the element
+// 		if((*arrayPtr)[id_in_segment])
+// 		{
+// 			return {{k, this}, false};
+// 		}
 		return {{k, this}, true};
 	}
 	template<typename M>
@@ -426,20 +473,20 @@ public:
 	{
 		size_t segment_id = key / segment_size;
 		
-		if(alloc_and_storage().second().size() <= segment_id)
-		{
-			return 0;
-		}
-		
-		if(!alloc_and_storage().second()[segment_id])
-		{
-			return 0;
-		}
-		
-		if(!(*alloc_and_storage().second()[segment_id])[key % segment_size])
-		{
-			return 0;
-		}
+// 		if(alloc_and_storage().second().size() <= segment_id)
+// 		{
+// 			return 0;
+// 		}
+// 		
+// 		if(!alloc_and_storage().second()[segment_id])
+// 		{
+// 			return 0;
+// 		}
+// 		
+// 		if(!(*alloc_and_storage().second()[segment_id])[key % segment_size])
+// 		{
+// 			return 0;
+// 		}
 		
 		return 1;
 	}
@@ -447,43 +494,43 @@ public:
 	// gets an iterator with the key `key`, or end()
 	iterator find(const key_type& key)
 	{
-		size_t segment_id = key / segment_size;
-		
-		if(alloc_and_storage().second().size() <= segment_id)
-		{
-			return end();
-		}
-		
-		if(!alloc_and_storage().second()[segment_id])
-		{
-			return end();
-		}
-		
-		if(!(*alloc_and_storage().second()[segment_id])[key % segment_size])
-		{
-			return end();
-		}
+// 		size_t segment_id = key / segment_size;
+// 		
+// 		if(alloc_and_storage().second().size() <= segment_id)
+// 		{
+// 			return end();
+// 		}
+// 		
+// 		if(!alloc_and_storage().second()[segment_id])
+// 		{
+// 			return end();
+// 		}
+// 		
+// 		if(!(*alloc_and_storage().second()[segment_id])[key % segment_size])
+// 		{
+// 			return end();
+// 		}
 		
 		return {key, this};
 	}
 	const_iterator find(const key_type& key) const
 	{
-		size_t segment_id = key / segment_size;
-		
-		if(alloc_and_storage().second().size() <= segment_id)
-		{
-			return end();
-		}
-		
-		if(!alloc_and_storage().second()[segment_id])
-		{
-			return end();
-		}
-		
-		if(!(*alloc_and_storage().second()[segment_id])[key % segment_size])
-		{
-			return end();
-		}
+// 		size_t segment_id = key / segment_size;
+// 		
+// 		if(alloc_and_storage().second().size() <= segment_id)
+// 		{
+// 			return end();
+// 		}
+// 		
+// 		if(!alloc_and_storage().second()[segment_id])
+// 		{
+// 			return end();
+// 		}
+// 		
+// 		if(!(*alloc_and_storage().second()[segment_id])[key % segment_size])
+// 		{
+// 			return end();
+// 		}
 		
 		return {key, this};
 	}
