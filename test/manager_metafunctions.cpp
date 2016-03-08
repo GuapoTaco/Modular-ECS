@@ -10,15 +10,15 @@ struct data2 {};
 struct data3 { char b; };
 
 auto base = Manager<decltype(make_type_tuple<data1>)>{};
-// 
-// auto sister1 = Manager<decltype(make_type_tuple<data2>), decltype(make_type_tuple<decltype(base)>)>{make_tuple(&base)};
-// auto sister2 = Manager<decltype(make_type_tuple<data3>), decltype(make_type_tuple<decltype(base)>)>{make_tuple(&base)};
-// 
-// auto child = Manager<decltype(make_type_tuple<>), decltype(make_type_tuple<decltype(sister1), decltype(sister2)>)>{::make_tuple(&sister1, &sister2)};
-// 
-// #define TEST_CONST(a) BOOST_TEST(decltype(a)::value)
 
-/*
+auto sister1 = Manager<decltype(make_type_tuple<data2>), decltype(make_type_tuple<decltype(base)>)>{make_tuple(&base)};
+auto sister2 = Manager<decltype(make_type_tuple<data3>), decltype(make_type_tuple<decltype(base)>)>{make_tuple(&base)};
+
+auto child = Manager<decltype(make_type_tuple<>), decltype(make_type_tuple<decltype(sister1), decltype(sister2)>)>{::make_tuple(&sister1, &sister2)};
+
+#define TEST_CONST(a) BOOST_TEST(decltype(a)::value)
+
+
 BOOST_AUTO_TEST_CASE(myComponents_test)
 {
 	TEST_CONST(base.myComponents() == make_type_tuple<data1>);
@@ -102,4 +102,4 @@ BOOST_AUTO_TEST_CASE(isComponent_test)
 	TEST_CONST(child.isComponent(type_c<data2>));
 	TEST_CONST(child.isComponent(type_c<data3>));
 }
-*/
+

@@ -77,13 +77,14 @@ public:
 	
 	// Range constructor (with or without compare)
 	template<typename ForwardIterator>
-	SegmentedMap(ForwardIterator begin, ForwardIterator end, const key_compare& comp_ = key_compare{})
+
+        SegmentedMap(ForwardIterator begin, ForwardIterator end, const key_compare& comp_ = key_compare{})
 		:comp{comp_}
 	{
-// 		for(; begin != end; ++begin)
-// 		{
-// 			operator[](begin->first) = begin->second;
-// 		}
+		for(; begin != end; ++begin)
+		{
+			operator[](begin->first) = begin->second;
+		}
 	}
 	
 	// copy constructor
@@ -370,13 +371,13 @@ public:
 		size_t id_in_segment = value.first % segment_size;
 		
 		// see if we need to allocate more on our vector
-// 		if(alloc_and_storage.second().size() >= segment_id)
-// 		{
-// 			alloc_and_storage.second().resize(segment_id + 1);
-// 			
-// 		}
+		if(alloc_and_storage.second().size() >= segment_id)
+		{
+			alloc_and_storage.second().resize(segment_id + 1);
+			
+		}
 		
-		/*auto&& arrayPtr = alloc_and_storage.second()[segment_id];
+		auto&& arrayPtr = alloc_and_storage.second()[segment_id];
 		// see if we need to allocate a new array
 		if(!arrayPtr)
 		{
@@ -389,7 +390,7 @@ public:
 			return {{value.first, this}, false};
 		}
 		(*arrayPtr)[id_in_segment] = value.second;
-		*/return {{value.first, this}, true};
+		return {{value.first, this}, true};
 	}
 	template<typename P, typename = std::enable_if_t<std::is_constructible<value_type, P&&>::value>> 
 	std::pair<iterator, bool> insert(P&& value)
@@ -426,25 +427,25 @@ public:
 		size_t id_in_segment = k % segment_size;
 		
 		// see if we need to allocate more on our vector
-// 		if(alloc_and_storage.second().size() >= segment_id)
-// 		{
-// 			alloc_and_storage.second().resize(segment_id + 1);
-// 			
-// 		}
+		if(alloc_and_storage.second().size() >= segment_id)
+		{
+			alloc_and_storage.second().resize(segment_id + 1);
+			
+		}
 		
-//		auto&& arrayPtr = alloc_and_storage.second()[segment_id];
+		auto&& arrayPtr = alloc_and_storage.second()[segment_id];
 		// see if we need to allocate a new array
-// 		if(!arrayPtr)
-// 		{
-// 			arrayPtr = std::make_unique<internal_array_type>();
-// 		}
-// 		
-// 		(*arrayPtr)[id_in_segment] = obj;
-// 		// insert the element
-// 		if((*arrayPtr)[id_in_segment])
-// 		{
-// 			return {{k, this}, false};
-// 		}
+		if(!arrayPtr)
+		{
+			arrayPtr = new internal_array_type();
+		}
+		
+		(*arrayPtr)[id_in_segment] = obj;
+		// insert the element
+		if((*arrayPtr)[id_in_segment])
+		{
+			return {{k, this}, false};
+		}
 		return {{k, this}, true};
 	}
 	template<typename M>
@@ -473,20 +474,20 @@ public:
 	{
 		size_t segment_id = key / segment_size;
 		
-// 		if(alloc_and_storage().second().size() <= segment_id)
-// 		{
-// 			return 0;
-// 		}
-// 		
-// 		if(!alloc_and_storage().second()[segment_id])
-// 		{
-// 			return 0;
-// 		}
-// 		
-// 		if(!(*alloc_and_storage().second()[segment_id])[key % segment_size])
-// 		{
-// 			return 0;
-// 		}
+		if(alloc_and_storage().second().size() <= segment_id)
+		{
+			return 0;
+		}
+		
+		if(!alloc_and_storage().second()[segment_id])
+		{
+			return 0;
+		}
+		
+		if(!(*alloc_and_storage().second()[segment_id])[key % segment_size])
+		{
+			return 0;
+		}
 		
 		return 1;
 	}
@@ -494,43 +495,43 @@ public:
 	// gets an iterator with the key `key`, or end()
 	iterator find(const key_type& key)
 	{
-// 		size_t segment_id = key / segment_size;
-// 		
-// 		if(alloc_and_storage().second().size() <= segment_id)
-// 		{
-// 			return end();
-// 		}
-// 		
-// 		if(!alloc_and_storage().second()[segment_id])
-// 		{
-// 			return end();
-// 		}
-// 		
-// 		if(!(*alloc_and_storage().second()[segment_id])[key % segment_size])
-// 		{
-// 			return end();
-// 		}
+		size_t segment_id = key / segment_size;
+		
+		if(alloc_and_storage().second().size() <= segment_id)
+		{
+			return end();
+		}
+		
+		if(!alloc_and_storage().second()[segment_id])
+		{
+			return end();
+		}
+		
+		if(!(*alloc_and_storage().second()[segment_id])[key % segment_size])
+		{
+			return end();
+		}
 		
 		return {key, this};
 	}
 	const_iterator find(const key_type& key) const
 	{
-// 		size_t segment_id = key / segment_size;
-// 		
-// 		if(alloc_and_storage().second().size() <= segment_id)
-// 		{
-// 			return end();
-// 		}
-// 		
-// 		if(!alloc_and_storage().second()[segment_id])
-// 		{
-// 			return end();
-// 		}
-// 		
-// 		if(!(*alloc_and_storage().second()[segment_id])[key % segment_size])
-// 		{
-// 			return end();
-// 		}
+		size_t segment_id = key / segment_size;
+		
+		if(alloc_and_storage().second().size() <= segment_id)
+		{
+			return end();
+		}
+		
+		if(!alloc_and_storage().second()[segment_id])
+		{
+			return end();
+		}
+		
+		if(!(*alloc_and_storage().second()[segment_id])[key % segment_size])
+		{
+			return end();
+		}
 		
 		return {key, this};
 	}
@@ -664,7 +665,7 @@ public:
 private:
 	
 	using internal_array_type = std::array<boost::optional<Value>, segment_size>;
-	boost::compressed_pair<Alloc, std::vector<std::unique_ptr<internal_array_type>>> alloc_and_storage;
+	boost::compressed_pair<Alloc, std::vector<internal_array_type*>> alloc_and_storage;
 	
 	key_compare comp;
 	
