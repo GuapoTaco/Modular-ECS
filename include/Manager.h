@@ -30,7 +30,7 @@ struct ManagerData{};
 template<typename... T>
 constexpr auto make_type_tuple = boost::hana::make_tuple(boost::hana::type_c<T>...);
 
-// we have to have these here because lambdas aren't allowed to be static, and because we need to have them in unevaluated contexts
+/// we have to have these here because lambdas aren't allowed to be static, and because we need to have them in unevaluated contexts
 namespace detail 
 {
 namespace lambdas
@@ -91,13 +91,29 @@ struct Manager : ManagerBase
 	
 	
 	using myComponents_t = decltype(boost::hana::make<Components_>());
+	
+	/**
+	 * @brief Gets the list of components owned by the manager. The size of this should be getNumMyComponents()
+	 * 
+	 * @return a boost::hana::tuple<> of components
+	 */
 	static constexpr auto myComponents() { return myComponents_t{}; }
 	
 	using myBases_t = decltype(boost::hana::make<Bases_>());
+	/**
+	 * @brief returns the direct bases of the manager. The size of this should be getNumBases()
+	 * 
+	 * @return a boost::hana::tuple<> of components
+	 */
 	static constexpr auto myBases() { return myBases_t{}; }
 	
 	using allManagers_t = decltype(boost::hana::append(remove_dups(boost::hana::concat(
 		boost::hana::fold(myBases(), boost::hana::make_tuple(), detail::lambdas::getAllManagers), myBases())) , boost::hana::type_c<Manager>));
+	/**
+	 * @brief Returns all the managers that are accessable to this managers--in the order of all base managers (direct and indirect) then Manager (this manager class)
+	 * 
+	 * @return a boost::hana::tuple<> of all the accessable managers
+	 */
 	static constexpr auto allManagers() { return allManagers_t{}; }
 	
 	using allComponents_t = decltype(remove_dups(boost::hana::concat(boost::hana::fold(boost::hana::transform(myBases(), detail::lambdas::getAllComponents), 
@@ -147,16 +163,12 @@ struct Manager : ManagerBase
 	template <typename T> 
 	static constexpr auto getComponentID(T component)
 	{
-		BOOST_HANA_CONSTANT_CHECK(isComponent(component));
-		
-		return get_index_of_first_matching(allComponents(), component);
+		return boost::hana::if_(isComponent(component), get_index_of_first_matching(allComponents(), component), boost::hana::nothing);
 	}
 	template <typename T> 
 	static constexpr auto getMyComponentID(T component)
 	{
-		BOOST_HANA_CONSTANT_CHECK(isComponent(component));
-		
-		return get_index_of_first_matching(myComponents(), component);
+		return boost::hana::if_(isComponent(component), get_index_of_first_matching(myComponents(), component), boost::hana::nothing);
 	}
 
 	using numStorageComponents_t = decltype(boost::hana::size(allStorageComponents()));
