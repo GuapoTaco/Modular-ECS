@@ -46,7 +46,7 @@ git checkout gh-pages
 rm -rf $(ls $DIR)
 
 # copy them over
-cp $TMP_DIR{ $(ls $TMP_DIR/doc/html) } $DIR/
+cp $TMP_DIR{ $(ls -dm */ $TMP_DIR/doc/html) } $DIR/
 
 # delete the tempory directory
 rm -r $TMP_DIR
