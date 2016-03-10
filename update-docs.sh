@@ -32,11 +32,11 @@ cp -r $DIR/build/doc $TMP_DIR/doc
 git checkout gh-pages
 
 # remove the old docs, and not hidden files
-rm -rf $(ls $DIR)
+rm -rf $(ls)
 
 # copy them over
 cd $TMP_DIR/doc/html
-ls $TMP_DIR/doc/html | xargs cp {} $DIR/
+find $(pwd) -maxdepth 1 -exec cp {} $DIR/ \;
 cd $DIR
 
 # delete the tempory directory
