@@ -227,6 +227,12 @@ struct Manager : ManagerBase
 	{
 		return boost::hana::if_(isStorageComponent(component), get_index_of_first_matching(myStorageComponents(), component), boost::hana::nothing);
 	}
+	/**
+	 * @brief Gets the ID of a component in allStorageComponents()
+	 * 
+	 * @param component the component to to get the ID of
+	 * @return A boost::hana::size_c<...> if \a component is a component, else boost::hana::nothing
+	 */
 	template <typename T>
 	static constexpr auto getStorageComponentID(T component)
 	{
