@@ -1,8 +1,0 @@
-PROJECT_NAME           = "Modular ECS"
-PROJECT_NUMBER         = @VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@
-STRIP_FROM_PATH        = @PROJECT_SOURCE_DIR@ 
-INPUT                  = @PROJECT_SOURCE_DIR@/include 
-FILE_PATTERNS          = *.h 
-RECURSIVE              = YES
-OUTPUT_DIRECTORY       = doc
-USE_MDFILE_AS_MAINPAGE = @doxy_main_page@
