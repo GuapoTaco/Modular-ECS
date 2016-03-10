@@ -43,10 +43,13 @@ cp -r $DIR/build/doc $TMP_DIR/doc
 git checkout gh-pages
 
 # remove the old docs, and not hidden files
-rm -rf $(ls)
+rm -rf $(ls $DIR)
 
 # copy them over
-cp {ls $TMP_DIR/doc/html} $DIR/
+cp { $(ls $TMP_DIR/doc/html) } $DIR/
+
+# delete the tempory directory
+rm -r $TMP_DIR
 
 # start push
 git push
