@@ -8,17 +8,27 @@ cd $DIR
 branch_name="$(git symbolic-ref HEAD 2>/dev/null)" ||
 branch_name="(unnamed branch)"     # detached HEAD
 
-if [[ "$branch_name" -eq "gh-pages" ]]
+if [ "$branch_name" == "gh-pages" ]
 then 
 	exit 1
 fi
 
 
 # Run doxygen to make sure we have the latest
-
-mkdir -p $DIR/build
+if [ ! -d build ]
+then
+	echo "Please run cmake in $DIR/build first"
+	exit 2;
+fi
 
 cd $DIR/build
+if [ ! -d "$DIR/build/CMakeFiles" ]
+then
+	echo "Please run cmake in $DIR/build first"
+	exit 3;
+
+fi
+
 
 cmake -DBUILD_DOCS=ON ..
 make docs
