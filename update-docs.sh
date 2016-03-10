@@ -13,24 +13,11 @@ then
 	exit 1
 fi
 
+cd $DIR/build
+
 
 # Run doxygen to make sure we have the latest
-if [ ! -d build ]
-then
-	echo "Please run cmake in $DIR/build first"
-	exit 2;
-fi
-
-cd $DIR/build
-if [ ! -d "$DIR/build/CMakeFiles" ]
-then
-	echo "Please run cmake in $DIR/build first"
-	exit 3;
-
-fi
-
-
-cmake -DBUILD_DOCS=ON ..
+cmake ..
 make docs
 
 # copy those to a tempory directory
@@ -39,7 +26,7 @@ TMP_DIR="$(mktemp -d)"
 
 echo "Using tempory directory $TMP_DIR"
 
-cp $DIR/build/doc $TMP_DIR/doc
+cp -r $DIR/build/doc $TMP_DIR/doc
 
 # checkout gh-pages
 git checkout gh-pages
