@@ -4,17 +4,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 cd $DIR
 
-# Returns "*" if the current git branch is dirty.
-function git_dirty {
-  [[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]] && echo "*"
-}
-
-
-if [ git_dirty == "*" ]; then
-	echo "Please commit your changes before running this script";
-	exit 4
-fi
-
 # make sure we aren't on the gh-pages branch
 branch_name="$(git symbolic-ref HEAD 2>/dev/null)" ||
 branch_name="(unnamed branch)"     # detached HEAD
@@ -46,7 +35,7 @@ git checkout gh-pages
 rm -rf $(ls $DIR)
 
 # copy them over
-cp $TMP_DIR{ $(ls -dm */ $TMP_DIR/doc/html) } $DIR/
+cp $TMP_DIR/doc/html/{ $(ls -dm */ $TMP_DIR/doc/html) } $DIR/
 
 # delete the tempory directory
 rm -r $TMP_DIR
