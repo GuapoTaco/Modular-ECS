@@ -39,4 +39,7 @@ cp -R $TMP_DIR/doc/html/* $DIR
 rm -r $TMP_DIR
 
 # start push
+git add .
+git commit -a -m "Update doxygen documentation"
 git push
+git checkout $branch_name
