@@ -39,3 +39,6 @@ rm -rf $(ls)
 
 # copy them over
 cp {ls $TMP_DIR/doc/html} $DIR/
+
+# start push
+git push
