@@ -35,7 +35,7 @@ git checkout gh-pages
 rm -rf $(ls $DIR)
 
 # copy them over
-cd $TMP_DIR
+cd $TMP_DIR/doc/html
 ls $TMP_DIR/doc/html | xargs cp {} $DIR/
 cd $DIR
 
