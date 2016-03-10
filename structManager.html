@@ -209,9 +209,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a04d32b9b444f925dba8ec64fc4edc42a"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structManager.html#a04d32b9b444f925dba8ec64fc4edc42a">getMyStorageComponentID</a> (T component)</td></tr>
 <tr class="memdesc:a04d32b9b444f925dba8ec64fc4edc42a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ID of a component in <a class="el" href="structManager.html#a00911972adb348f640e01a631374ea41" title="Gets the StorageComponents that this manager controls. ">myStorageComponents()</a>  <a href="#a04d32b9b444f925dba8ec64fc4edc42a">More...</a><br /></td></tr>
 <tr class="separator:a04d32b9b444f925dba8ec64fc4edc42a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9956b99e3b94d7d6e410c0c8064a4e67"><td class="memTemplParams" colspan="2"><a class="anchor" id="a9956b99e3b94d7d6e410c0c8064a4e67"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a9956b99e3b94d7d6e410c0c8064a4e67"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getStorageComponentID</b> (T component)</td></tr>
+<tr class="memitem:a9956b99e3b94d7d6e410c0c8064a4e67"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a9956b99e3b94d7d6e410c0c8064a4e67"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structManager.html#a9956b99e3b94d7d6e410c0c8064a4e67">getStorageComponentID</a> (T component)</td></tr>
+<tr class="memdesc:a9956b99e3b94d7d6e410c0c8064a4e67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ID of a component in <a class="el" href="structManager.html#a7e9f59e1b31fde1f31011cf2fd4f8078" title="Gets all the storage components, even those defined by base (direct and indirect) managers...">allStorageComponents()</a>  <a href="#a9956b99e3b94d7d6e410c0c8064a4e67">More...</a><br /></td></tr>
 <tr class="separator:a9956b99e3b94d7d6e410c0c8064a4e67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11257eb73481699eaade80030df42a5e"><td class="memTemplParams" colspan="2"><a class="anchor" id="a11257eb73481699eaade80030df42a5e"></a>
 template&lt;typename T &gt; </td></tr>
@@ -536,6 +536,43 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Gets the ID of a component in <a class="el" href="structManager.html#a00911972adb348f640e01a631374ea41" title="Gets the StorageComponents that this manager controls. ">myStorageComponents()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">component</td><td>the component to to get the ID of </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A boost::hana::size_c&lt;...&gt; if <em>component</em> is a component, else boost::hana::nothing </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a9956b99e3b94d7d6e410c0c8064a4e67"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Components_ , typename Bases_  = boost::hana::tuple&lt;&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static constexpr auto <a class="el" href="structManager.html">Manager</a>&lt; Components_, Bases_ &gt;::getStorageComponentID </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>component</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the ID of a component in <a class="el" href="structManager.html#a7e9f59e1b31fde1f31011cf2fd4f8078" title="Gets all the storage components, even those defined by base (direct and indirect) managers...">allStorageComponents()</a> </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">component</td><td>the component to to get the ID of </td></tr>
