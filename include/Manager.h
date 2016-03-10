@@ -188,11 +188,11 @@ struct Manager : ManagerBase
 		return decltype(boost::hana::fold(allComponents(), boost::hana::make_tuple(),
 										  detail::lambdas::allTagComponents_LAM)){};
 	}
-	
+
 	/**
 	 * @brief Gets the ID of a component type in allComponents()
-	 * 
-	 * @param component A boost::hana::type_c<...> 
+	 *
+	 * @param component A boost::hana::type_c<...>
 	 * @return A boost::hana::size_c<...> if \a component is a component, else boost::hana::nothing
 	 */
 	template <typename T>
@@ -204,9 +204,9 @@ struct Manager : ManagerBase
 	}
 	/**
 	 * @brief Gets the ID of a component type in myComponents()
-	 * 
-	 * @param T p_T:...
-	 * @return int
+	 *
+	 * @param component a boost::hana::type_c<...> of the component to test
+	 * @return A boost::hana::size_c<...> if \a component is a component, else boost::hana::nothing
 	 */
 	template <typename T>
 	static constexpr auto getMyComponentID(T component)
@@ -215,27 +215,17 @@ struct Manager : ManagerBase
 								get_index_of_first_matching(myComponents(), component),
 								boost::hana::nothing);
 	}
-
-	using numStorageComponents_t = decltype(boost::hana::size(allStorageComponents()));
-	static constexpr auto numStorageComponents() { return numStorageComponents_t{}; }
-	using numMyStorageComponents_t = decltype(boost::hana::size(allStorageComponents()));
-	static constexpr auto numMyStorageComponents() { return numMyStorageComponents_t{}; }
-	template <typename T>
-	static constexpr auto isStorageComponent(T componentToTest)
-	{
-		return boost::hana::contains(allStorageComponents, componentToTest);
-	}
-	template <typename T>
-	static constexpr auto isMyStorageComponent(T componentToTest)
-	{
-		return boost::hana::contains(myStorageComponents(), componentToTest);
-	}
+	
+	/**
+	 * @brief Gets the ID of a component in myStorageComponents()
+	 * 
+	 * @param component the component to to get the ID of
+	 * @return A boost::hana::size_c<...> if \a component is a component, else boost::hana::nothing
+	 */
 	template <typename T>
 	static constexpr auto getMyStorageComponentID(T component)
 	{
-		BOOST_HANA_CONSTANT_CHECK(isStorageComponent(component));
-
-		return get_index_of_first_matching(myStorageComponents(), component);
+		return boost::hana::if_(isStorageComponent(component), get_index_of_first_matching(myStorageComponents(), component), boost::hana::nothing);
 	}
 	template <typename T>
 	static constexpr auto getStorageComponentID(T component)
@@ -402,7 +392,7 @@ struct Manager : ManagerBase
 	static RuntimeSignature_t generateRuntimeSignature(T signature)
 	{
 		BOOST_HANA_CONSTANT_CHECK(isSignature(signature));
-		
+
 		RuntimeSignature_t ret;
 
 		boost::hana::for_each(signature, [&ret](auto type)
