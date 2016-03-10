@@ -37,6 +37,7 @@ rm -rf $(ls $DIR)
 # copy them over
 cd $TMP_DIR
 ls $TMP_DIR/doc/html | xargs cp {} $DIR/
+cd $DIR
 
 # delete the tempory directory
 rm -r $TMP_DIR
