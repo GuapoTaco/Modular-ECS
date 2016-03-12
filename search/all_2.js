@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['detail',['detail',['../namespacedetail.html',1,'']]]
+  ['entity',['Entity',['../structEntity.html',1,'']]]
 ];

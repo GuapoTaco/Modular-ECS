@@ -39,7 +39,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -89,7 +88,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="structManager-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Manager&lt; Components_, Bases_ &gt; Struct Template Reference</div>  </div>
@@ -112,9 +110,6 @@ Inheritance diagram for Manager&lt; Components_, Bases_ &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ab02a87a57501192bdd7ddddbd0010a86"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab02a87a57501192bdd7ddddbd0010a86"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>numManagers_t</b> = decltype(boost::hana::size(<a class="el" href="structManager.html#a7e61236150c921ae1e926fc58912e525">allManagers</a>()))</td></tr>
-<tr class="separator:ab02a87a57501192bdd7ddddbd0010a86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6d0197ce13625b532bb1ca3bbaa9ef9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af6d0197ce13625b532bb1ca3bbaa9ef9"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>RuntimeSignature_t</b> = std::bitset&lt; decltype(boost::hana::size(<a class="el" href="structManager.html#a89a6a4a7a60abc5342a6855d573c0565">allComponents</a>()))::value &gt;</td></tr>
 <tr class="separator:af6d0197ce13625b532bb1ca3bbaa9ef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,10 +135,10 @@ template&lt;typename T &gt; </td></tr>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aca442e02b102e9540b4c3cd30d350091"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>hasComponent</b> (T component, <a class="el" href="structEntity.html">Entity</a>&lt; <a class="el" href="structManager.html">Manager</a> &gt; *entity)</td></tr>
 <tr class="separator:aca442e02b102e9540b4c3cd30d350091"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca754e501c31d050965a173d361b7bb7"><td class="memTemplParams" colspan="2"><a class="anchor" id="aca754e501c31d050965a173d361b7bb7"></a>
+<tr class="memitem:a4498dc1b55fa016b06cd1be183d31aaf"><td class="memTemplParams" colspan="2"><a class="anchor" id="a4498dc1b55fa016b06cd1be183d31aaf"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:aca754e501c31d050965a173d361b7bb7"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getRefToManager</b> (T manager) -&gt; typename decltype(manager)::type &amp;</td></tr>
-<tr class="separator:aca754e501c31d050965a173d361b7bb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4498dc1b55fa016b06cd1be183d31aaf"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getRefToManager</b> (T manager)</td></tr>
+<tr class="separator:a4498dc1b55fa016b06cd1be183d31aaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa07dceb78e248453008da53c70d624a"><td class="memTemplParams" colspan="2"><a class="anchor" id="afa07dceb78e248453008da53c70d624a"></a>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:afa07dceb78e248453008da53c70d624a"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getComponentStorage</b> (T component) -&gt; <a class="el" href="classSegmentedMap.html">SegmentedMap</a>&lt; size_t, typename decltype(component)::type &gt; &amp;</td></tr>
@@ -167,9 +162,9 @@ template&lt;typename T , typename F &gt; </td></tr>
 <tr class="memitem:ac4dfb9cb3d88d4cb92fc08625217e9c9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac4dfb9cb3d88d4cb92fc08625217e9c9"></a>
 <a class="el" href="structManagerData.html">ManagerData</a>&lt; <a class="el" href="structManager.html">Manager</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getManagerData</b> ()</td></tr>
 <tr class="separator:ac4dfb9cb3d88d4cb92fc08625217e9c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af83e37628671fc7ae7bcbb5d7cd31a44"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af83e37628671fc7ae7bcbb5d7cd31a44"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Manager</b> (const decltype(boost::hana::transform(<a class="el" href="structManager.html#a8d9339740481438a46c25285d081e472">myBases</a>(), detail::lambdas::removeTypeAddPtr))&amp;bases={})</td></tr>
-<tr class="separator:af83e37628671fc7ae7bcbb5d7cd31a44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a813bf66e2f2f2f7921b73decadb01430"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a813bf66e2f2f2f7921b73decadb01430"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Manager</b> (const decltype(boost::hana::transform(<a class="el" href="structManager.html#a8d9339740481438a46c25285d081e472">myBases</a>(), detail::removeTypeAddPtr))&amp;bases={})</td></tr>
+<tr class="separator:a813bf66e2f2f2f7921b73decadb01430"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -205,49 +200,34 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ae2b0321410fbd8b40b3056bfab20c4a1"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structManager.html#ae2b0321410fbd8b40b3056bfab20c4a1">getMyComponentID</a> (T component)</td></tr>
 <tr class="memdesc:ae2b0321410fbd8b40b3056bfab20c4a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ID of a component type in <a class="el" href="structManager.html#ae45f0b24deb98b688fd84cb8a2ef8a02" title="Gets the list of components owned by the manager. The size of this should be getNumMyComponents() ...">myComponents()</a>  <a href="#ae2b0321410fbd8b40b3056bfab20c4a1">More...</a><br /></td></tr>
 <tr class="separator:ae2b0321410fbd8b40b3056bfab20c4a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04d32b9b444f925dba8ec64fc4edc42a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a04d32b9b444f925dba8ec64fc4edc42a"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structManager.html#a04d32b9b444f925dba8ec64fc4edc42a">getMyStorageComponentID</a> (T component)</td></tr>
-<tr class="memdesc:a04d32b9b444f925dba8ec64fc4edc42a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ID of a component in <a class="el" href="structManager.html#a00911972adb348f640e01a631374ea41" title="Gets the StorageComponents that this manager controls. ">myStorageComponents()</a>  <a href="#a04d32b9b444f925dba8ec64fc4edc42a">More...</a><br /></td></tr>
-<tr class="separator:a04d32b9b444f925dba8ec64fc4edc42a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9956b99e3b94d7d6e410c0c8064a4e67"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a9956b99e3b94d7d6e410c0c8064a4e67"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structManager.html#a9956b99e3b94d7d6e410c0c8064a4e67">getStorageComponentID</a> (T component)</td></tr>
 <tr class="memdesc:a9956b99e3b94d7d6e410c0c8064a4e67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ID of a component in <a class="el" href="structManager.html#a7e9f59e1b31fde1f31011cf2fd4f8078" title="Gets all the storage components, even those defined by base (direct and indirect) managers...">allStorageComponents()</a>  <a href="#a9956b99e3b94d7d6e410c0c8064a4e67">More...</a><br /></td></tr>
 <tr class="separator:a9956b99e3b94d7d6e410c0c8064a4e67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11257eb73481699eaade80030df42a5e"><td class="memTemplParams" colspan="2"><a class="anchor" id="a11257eb73481699eaade80030df42a5e"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a11257eb73481699eaade80030df42a5e"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>isTagComponent</b> (T componentToTest)</td></tr>
-<tr class="separator:a11257eb73481699eaade80030df42a5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4076a86f3159c0f9f8eab4c7420376f0"><td class="memTemplParams" colspan="2"><a class="anchor" id="a4076a86f3159c0f9f8eab4c7420376f0"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a4076a86f3159c0f9f8eab4c7420376f0"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>isMyTagComponent</b> (T componentToTest)</td></tr>
-<tr class="separator:a4076a86f3159c0f9f8eab4c7420376f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95d3f0046cd7edd5841b3c06a43475b5"><td class="memTemplParams" colspan="2"><a class="anchor" id="a95d3f0046cd7edd5841b3c06a43475b5"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a95d3f0046cd7edd5841b3c06a43475b5"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getTagComponentID</b> (T component)</td></tr>
+<tr class="memitem:a04d32b9b444f925dba8ec64fc4edc42a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a04d32b9b444f925dba8ec64fc4edc42a"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structManager.html#a04d32b9b444f925dba8ec64fc4edc42a">getMyStorageComponentID</a> (T component)</td></tr>
+<tr class="memdesc:a04d32b9b444f925dba8ec64fc4edc42a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ID of a component in <a class="el" href="structManager.html#a00911972adb348f640e01a631374ea41" title="Gets the StorageComponents that this manager controls. ">myStorageComponents()</a>  <a href="#a04d32b9b444f925dba8ec64fc4edc42a">More...</a><br /></td></tr>
+<tr class="separator:a04d32b9b444f925dba8ec64fc4edc42a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95d3f0046cd7edd5841b3c06a43475b5"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a95d3f0046cd7edd5841b3c06a43475b5"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structManager.html#a95d3f0046cd7edd5841b3c06a43475b5">getTagComponentID</a> (T component)</td></tr>
+<tr class="memdesc:a95d3f0046cd7edd5841b3c06a43475b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ID of a component in <a class="el" href="structManager.html#aaeea7153919c9ea242ad709a43a30139" title="Gets all the tag components, including those defined by base (direct and indirect) managers...">allTagComponents()</a>  <a href="#a95d3f0046cd7edd5841b3c06a43475b5">More...</a><br /></td></tr>
 <tr class="separator:a95d3f0046cd7edd5841b3c06a43475b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2c8663696558858823b27e01b130234"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af2c8663696558858823b27e01b130234"></a>
-static constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>numManagers</b> ()</td></tr>
-<tr class="separator:af2c8663696558858823b27e01b130234"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58cdfbed0e7fdad0b231560f9a44beb6"><td class="memTemplParams" colspan="2"><a class="anchor" id="a58cdfbed0e7fdad0b231560f9a44beb6"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a58cdfbed0e7fdad0b231560f9a44beb6"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>isManager</b> (T toTest)</td></tr>
-<tr class="separator:a58cdfbed0e7fdad0b231560f9a44beb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a581c59508589221283513f9e11b80051"><td class="memTemplParams" colspan="2"><a class="anchor" id="a581c59508589221283513f9e11b80051"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a581c59508589221283513f9e11b80051"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getManagerID</b> (T manager)</td></tr>
+<tr class="memitem:aa9936c8a9aa98a328accaef893179b47"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aa9936c8a9aa98a328accaef893179b47"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structManager.html#aa9936c8a9aa98a328accaef893179b47">getMyTagComponentID</a> (T component)</td></tr>
+<tr class="memdesc:aa9936c8a9aa98a328accaef893179b47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ID of a component in <a class="el" href="structManager.html#ad99bd510c78fcf799554b4c1d1be24ab" title="Gets the TagComponents that this manager controls. ">myTagComponents()</a>  <a href="#aa9936c8a9aa98a328accaef893179b47">More...</a><br /></td></tr>
+<tr class="separator:aa9936c8a9aa98a328accaef893179b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a581c59508589221283513f9e11b80051"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a581c59508589221283513f9e11b80051"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structManager.html#a581c59508589221283513f9e11b80051">getManagerID</a> (T manager)</td></tr>
+<tr class="memdesc:a581c59508589221283513f9e11b80051"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ID of the <code>manager</code> in <a class="el" href="structManager.html#a7e61236150c921ae1e926fc58912e525" title="Returns all the managers that are accessable to this managers–in the order of all base managers (dir...">allManagers()</a>  <a href="#a581c59508589221283513f9e11b80051">More...</a><br /></td></tr>
 <tr class="separator:a581c59508589221283513f9e11b80051"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a515649d72ce1bb5f6c7774cf0fe32d22"><td class="memTemplParams" colspan="2"><a class="anchor" id="a515649d72ce1bb5f6c7774cf0fe32d22"></a>
+<tr class="memitem:aaa9c5cd14d453d6b89e9a3f71979d5e5"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aaa9c5cd14d453d6b89e9a3f71979d5e5"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structManager.html#aaa9c5cd14d453d6b89e9a3f71979d5e5">getMyBaseID</a> (T base)</td></tr>
+<tr class="memdesc:aaa9c5cd14d453d6b89e9a3f71979d5e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ID of <code>base</code> in <a class="el" href="structManager.html#a8d9339740481438a46c25285d081e472" title="returns the direct bases of the manager. The size of this should be getNumBases() ...">myBases()</a>  <a href="#aaa9c5cd14d453d6b89e9a3f71979d5e5">More...</a><br /></td></tr>
+<tr class="separator:aaa9c5cd14d453d6b89e9a3f71979d5e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd63013e01c4de62d72e63a5ac1871e2"><td class="memTemplParams" colspan="2"><a class="anchor" id="afd63013e01c4de62d72e63a5ac1871e2"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a515649d72ce1bb5f6c7774cf0fe32d22"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>isBase</b> (T baseToTest)</td></tr>
-<tr class="separator:a515649d72ce1bb5f6c7774cf0fe32d22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0505c40430b058c1a45399d3c2e20d8"><td class="memTemplParams" colspan="2"><a class="anchor" id="ad0505c40430b058c1a45399d3c2e20d8"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ad0505c40430b058c1a45399d3c2e20d8"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getBaseID</b> (T base)</td></tr>
-<tr class="separator:ad0505c40430b058c1a45399d3c2e20d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab160abd0022258b3e8d94596e4060c8d"><td class="memTemplParams" colspan="2"><a class="anchor" id="ab160abd0022258b3e8d94596e4060c8d"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ab160abd0022258b3e8d94596e4060c8d"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>isSignature</b> (T signature)</td></tr>
-<tr class="separator:ab160abd0022258b3e8d94596e4060c8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd63013e01c4de62d72e63a5ac1871e2"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>isPossibleSignature</b> (T signature)</td></tr>
+<tr class="separator:afd63013e01c4de62d72e63a5ac1871e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46cb020c782aa603fd61d341e99aba6b"><td class="memTemplParams" colspan="2"><a class="anchor" id="a46cb020c782aa603fd61d341e99aba6b"></a>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a46cb020c782aa603fd61d341e99aba6b"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getManagerFromComponent</b> (T component)</td></tr>
@@ -286,15 +266,15 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ab05e7590186e51f4984752243a9e39aa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab05e7590186e51f4984752243a9e39aa"></a>
 <a class="el" href="structManagerData.html">ManagerData</a>&lt; <a class="el" href="structManager.html">Manager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>myManagerData</b></td></tr>
 <tr class="separator:ab05e7590186e51f4984752243a9e39aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8e3dde64d32f84c8d3910116af3fd84"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac8e3dde64d32f84c8d3910116af3fd84"></a>
-decltype(boost::hana::transform(<a class="el" href="structManager.html#a00911972adb348f640e01a631374ea41">myStorageComponents</a>(), detail::lambdas::removeTypeAddSegmentedMap))&#160;</td><td class="memItemRight" valign="bottom"><b>storageComponentStorage</b></td></tr>
-<tr class="separator:ac8e3dde64d32f84c8d3910116af3fd84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a9b3300af55500cfebb28a1e241f431"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8a9b3300af55500cfebb28a1e241f431"></a>
-std::array&lt; std::vector&lt; size_t &gt;, numMyComponents()&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>componentEntityStorage</b></td></tr>
-<tr class="separator:a8a9b3300af55500cfebb28a1e241f431"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9759a6c3aae97f8d132aaa54f1769b4b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9759a6c3aae97f8d132aaa54f1769b4b"></a>
-decltype(boost::hana::transform(<a class="el" href="structManager.html#a7e61236150c921ae1e926fc58912e525">allManagers</a>(), detail::lambdas::removeTypeAddPtr))&#160;</td><td class="memItemRight" valign="bottom"><b>basePtrStorage</b></td></tr>
-<tr class="separator:a9759a6c3aae97f8d132aaa54f1769b4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09e6c11fea2ff9b879d68e5823414f1f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a09e6c11fea2ff9b879d68e5823414f1f"></a>
+decltype(boost::hana::transform(<a class="el" href="structManager.html#a00911972adb348f640e01a631374ea41">myStorageComponents</a>(), detail::removeTypeAddSegmentedMap))&#160;</td><td class="memItemRight" valign="bottom"><b>storageComponentStorage</b></td></tr>
+<tr class="separator:a09e6c11fea2ff9b879d68e5823414f1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab047cb56713b68885deefbc4d97bc406"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab047cb56713b68885deefbc4d97bc406"></a>
+std::array&lt; std::vector&lt; size_t &gt;, boost::hana::size(<a class="el" href="structManager.html#ae45f0b24deb98b688fd84cb8a2ef8a02">myComponents</a>())&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>componentEntityStorage</b></td></tr>
+<tr class="separator:ab047cb56713b68885deefbc4d97bc406"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9d03a4d02ee6790b5f0fb5c6ac6090e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae9d03a4d02ee6790b5f0fb5c6ac6090e"></a>
+decltype(boost::hana::transform(<a class="el" href="structManager.html#a7e61236150c921ae1e926fc58912e525">allManagers</a>(), detail::removeTypeAddPtr))&#160;</td><td class="memItemRight" valign="bottom"><b>basePtrStorage</b></td></tr>
+<tr class="separator:ae9d03a4d02ee6790b5f0fb5c6ac6090e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a856d14e5ce62398351baf585bd027a37"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a856d14e5ce62398351baf585bd027a37"></a>
 std::vector&lt; <a class="el" href="structEntity.html">Entity</a>&lt; <a class="el" href="structManager.html">Manager</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>entityStorage</b></td></tr>
 <tr class="separator:a856d14e5ce62398351baf585bd027a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -310,12 +290,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasBeenCleandUp</b> =
 <tr class="memitem:a1d5b1352f7599622d72973979f91b4ce"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1d5b1352f7599622d72973979f91b4ce"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>tickNumber</b> = 0</td></tr>
 <tr class="separator:a1d5b1352f7599622d72973979f91b4ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:a783956bb5e163052e788a347a686ad26"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a783956bb5e163052e788a347a686ad26"></a>
-static constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>numBases</b> = boost::hana::size(<a class="el" href="structManager.html#a8d9339740481438a46c25285d081e472">myBases</a>())</td></tr>
-<tr class="separator:a783956bb5e163052e788a347a686ad26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename Components_, typename Bases_ = boost::hana::tuple&lt;&gt;&gt;<br />
@@ -472,6 +446,80 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a581c59508589221283513f9e11b80051"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Components_ , typename Bases_  = boost::hana::tuple&lt;&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static constexpr auto <a class="el" href="structManager.html">Manager</a>&lt; Components_, Bases_ &gt;::getManagerID </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>manager</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the ID of the <code>manager</code> in <a class="el" href="structManager.html#a7e61236150c921ae1e926fc58912e525" title="Returns all the managers that are accessable to this managers–in the order of all base managers (dir...">allManagers()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">manager</td><td>The manager to get the ID of. Should be a boost::hana::type_c&lt;...&gt; </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A boost::hana::size_c&lt;...&gt; if <code>manager</code> is in <a class="el" href="structManager.html#a7e61236150c921ae1e926fc58912e525" title="Returns all the managers that are accessable to this managers–in the order of all base managers (dir...">allManagers()</a>, else boost::hana::nothing. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aaa9c5cd14d453d6b89e9a3f71979d5e5"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Components_ , typename Bases_  = boost::hana::tuple&lt;&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static constexpr auto <a class="el" href="structManager.html">Manager</a>&lt; Components_, Bases_ &gt;::getMyBaseID </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>base</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the ID of <code>base</code> in <a class="el" href="structManager.html#a8d9339740481438a46c25285d081e472" title="returns the direct bases of the manager. The size of this should be getNumBases() ...">myBases()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The base to get the ID of. Should be a boost::hana::type_c&lt;...&gt; </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A boost::hana::type_c&lt;...&gt; if <code>base</code> if in <a class="el" href="structManager.html#a8d9339740481438a46c25285d081e472" title="returns the direct bases of the manager. The size of this should be getNumBases() ...">myBases()</a>, else boost::hana::nothing </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ae2b0321410fbd8b40b3056bfab20c4a1"></a>
 <div class="memitem">
 <div class="memproto">
@@ -542,7 +590,44 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A boost::hana::size_c&lt;...&gt; if <em>component</em> is a component, else boost::hana::nothing </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A boost::hana::size_c&lt;...&gt; if <em>component</em> is in <a class="el" href="structManager.html#a00911972adb348f640e01a631374ea41" title="Gets the StorageComponents that this manager controls. ">myStorageComponents()</a>, else boost::hana::nothing </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa9936c8a9aa98a328accaef893179b47"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Components_ , typename Bases_  = boost::hana::tuple&lt;&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static constexpr auto <a class="el" href="structManager.html">Manager</a>&lt; Components_, Bases_ &gt;::getMyTagComponentID </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>component</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the ID of a component in <a class="el" href="structManager.html#ad99bd510c78fcf799554b4c1d1be24ab" title="Gets the TagComponents that this manager controls. ">myTagComponents()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">component</td><td>the component to to get the ID of </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A boost::hana::size_c&lt;...&gt; if <em>component</em> is in <a class="el" href="structManager.html#ad99bd510c78fcf799554b4c1d1be24ab" title="Gets the TagComponents that this manager controls. ">myTagComponents()</a>, else boost::hana::nothing </dd></dl>
 
 </div>
 </div>
@@ -579,7 +664,44 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A boost::hana::size_c&lt;...&gt; if <em>component</em> is a component, else boost::hana::nothing </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A boost::hana::size_c&lt;...&gt; if <em>component</em> is in <a class="el" href="structManager.html#a7e9f59e1b31fde1f31011cf2fd4f8078" title="Gets all the storage components, even those defined by base (direct and indirect) managers...">allStorageComponents()</a>, else boost::hana::nothing </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a95d3f0046cd7edd5841b3c06a43475b5"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Components_ , typename Bases_  = boost::hana::tuple&lt;&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static constexpr auto <a class="el" href="structManager.html">Manager</a>&lt; Components_, Bases_ &gt;::getTagComponentID </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>component</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the ID of a component in <a class="el" href="structManager.html#aaeea7153919c9ea242ad709a43a30139" title="Gets all the tag components, including those defined by base (direct and indirect) managers...">allTagComponents()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">component</td><td>the component to to get the ID of </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A boost::hana::size_c&lt;...&gt; if <em>component</em> is in <a class="el" href="structManager.html#aaeea7153919c9ea242ad709a43a30139" title="Gets all the tag components, including those defined by base (direct and indirect) managers...">allTagComponents()</a>, else boost::hana::nothing </dd></dl>
 
 </div>
 </div>
