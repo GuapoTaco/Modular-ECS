@@ -289,6 +289,13 @@ struct Manager : ManagerBase
 										 boost::hana::nothing)){};
 	}
 
+	/**
+	* @brief Sees if \c signature is an okay signature, as in all of the elements of \c signature
+	* are in allComponents()
+	*
+	* @param base The singature to check, a boost:hana::tuple<boost::hana::type_c<...>, ...>.
+	* @return A boost::hana::bool_c<...>
+	*/
 	template <typename T>
 	static constexpr auto isPossibleSignature(T signature)
 	{
@@ -604,12 +611,6 @@ struct Manager : ManagerBase
 	std::array<std::vector<size_t>, boost::hana::size(myComponents())> componentEntityStorage;
 	decltype(boost::hana::transform(allManagers(), detail::removeTypeAddPtr)) basePtrStorage;
 	std::vector<Entity<Manager>> entityStorage;
-	std::deque<size_t> freeEntitySlots;
-
-	bool hasBegunPlay = false;
-	bool hasBeenCleandUp = false;
-
-	size_t tickNumber = 0;
 
 	ManagerData<Manager>& getManagerData() { return myManagerData; }
 	Manager(const decltype(boost::hana::transform(myBases(), detail::removeTypeAddPtr))& bases = {})
@@ -643,7 +644,7 @@ struct Manager : ManagerBase
 				BOOST_HANA_CONSTANT_CHECK(boost::hana::contains(myBases(), directBaseThatHasPtr));
 
 				constexpr auto directBaseThatHasPtrID =
-					decltype(Manager::getBaseID(directBaseThatHasPtr)){};
+					decltype(Manager::getMyBaseID(directBaseThatHasPtr)){};
 
 				baseToSet = &(bases[directBaseThatHasPtrID]->getRefToManager(baseToSet_type));
 
