@@ -260,19 +260,32 @@ struct Manager : ManagerBase
 			get_index_of_first_matching(myStorageComponents(), component), boost::hana::nothing)){};
 	}
 
+	/**
+	 * @brief Gets the ID of the \c manager in allManagers()
+	 * 
+	 * @param manager The manager to get the ID of. Should be a boost::hana::type_c<...>
+	 * @return A boost::hana::size_c<...> if \c manager is in allManagers(), else boost::hana::nothing.
+	 */
 	template <typename T>
 	static constexpr auto getManagerID(T manager)
 	{
-		return decltype(boost::hana::if_(isManager(manager),
+		
+		return decltype(boost::hana::if_(boost::hana::contains(allManagers(), manager),
 										 get_index_of_first_matching(allManagers(), manager),
 										 boost::hana::nothing)){};
 	}
 
+	/**
+	* @brief Gets the ID of \c base in myBases()
+	* 
+	* @param base The base to get the ID of. Should be a boost::hana::type_c<...>
+	* @return A boost::hana::type_c<...> if \c base if in myBases(), else boost::hana::nothing
+	*/
 	template <typename T>
-	static constexpr auto getBaseID(T base)
+	static constexpr auto getMyBaseID(T base)
 	{
 		return decltype(
-			boost::hana::if_(isBase(base), get_index_of_first_matching(myBases(), base))){};
+			boost::hana::if_(boost::hana::contains(myBases(), base), get_index_of_first_matching(myBases(), base), boost::hana::nothing)){};
 	}
 
 	template <typename T>
@@ -496,10 +509,10 @@ struct Manager : ManagerBase
 	}
 
 	template <typename T>
-	auto getRefToManager(T manager) -> typename decltype(manager)::type &
+	decltype(auto) getRefToManager(T manager)
 	{
-		BOOST_HANA_CONSTANT_CHECK(isManager(manager));
-
+		BOOST_HANA_CONSTANT_ASSERT(boost::hana::contains(allManagers(), manager));
+		
 		return *basePtrStorage[getManagerID(manager)];
 	}
 
@@ -614,12 +627,12 @@ struct Manager : ManagerBase
 				// get a hana type_c of the basetoset
 				auto constexpr baseToSet_type =
 					boost::hana::type_c<std::remove_pointer_t<std::decay_t<decltype(baseToSet)>>>;
-				BOOST_HANA_CONSTANT_CHECK(isManager(baseToSet_type));
+				BOOST_HANA_CONSTANT_CHECK(boost::hana::contains(allManagers(), baseToSet_type));
 
 				// a lambda that checks if a contains the base we want
 				auto hasBase = [&baseToSet_type](auto typeToCheck)
 				{
-					return decltype(typeToCheck)::type::isManager(baseToSet_type);
+					return boost::hana::contains(decltype(typeToCheck)::type::allManagers(), baseToSet_type);
 				};
 
 				constexpr auto directBaseThatHasPtr_opt =
@@ -627,7 +640,7 @@ struct Manager : ManagerBase
 				BOOST_HANA_CONSTANT_CHECK(boost::hana::is_just(directBaseThatHasPtr_opt));
 
 				constexpr auto directBaseThatHasPtr = *directBaseThatHasPtr_opt;
-				BOOST_HANA_CONSTANT_CHECK(isBase(directBaseThatHasPtr));
+				BOOST_HANA_CONSTANT_CHECK(boost::hana::contains(myBases(), directBaseThatHasPtr));
 
 				constexpr auto directBaseThatHasPtrID =
 					decltype(Manager::getBaseID(directBaseThatHasPtr)){};
