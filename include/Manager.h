@@ -34,14 +34,14 @@ constexpr auto make_type_tuple = boost::hana::make_tuple(boost::hana::type_c<T>.
 
 namespace detail
 {
-	auto removeTypeAddSegmentedMap = [](auto arg)
-	{
-		return SegmentedMap<size_t, typename decltype(arg)::type>{};
-	};
-	auto removeTypeAddPtr = [](auto arg)
-	{
-		return (typename decltype(arg)::type*){};
-	};
+auto removeTypeAddSegmentedMap = [](auto arg)
+{
+	return SegmentedMap<size_t, typename decltype(arg)::type>{};
+};
+auto removeTypeAddPtr = [](auto arg)
+{
+	return (typename decltype(arg)::type*){};
+};
 }
 
 /// @brief For distinguising if a class is a manager at all
@@ -262,14 +262,14 @@ struct Manager : ManagerBase
 
 	/**
 	 * @brief Gets the ID of the \c manager in allManagers()
-	 * 
+	 *
 	 * @param manager The manager to get the ID of. Should be a boost::hana::type_c<...>
-	 * @return A boost::hana::size_c<...> if \c manager is in allManagers(), else boost::hana::nothing.
+	 * @return A boost::hana::size_c<...> if \c manager is in allManagers(), else
+	 * boost::hana::nothing.
 	 */
 	template <typename T>
 	static constexpr auto getManagerID(T manager)
 	{
-		
 		return decltype(boost::hana::if_(boost::hana::contains(allManagers(), manager),
 										 get_index_of_first_matching(allManagers(), manager),
 										 boost::hana::nothing)){};
@@ -277,15 +277,16 @@ struct Manager : ManagerBase
 
 	/**
 	* @brief Gets the ID of \c base in myBases()
-	* 
+	*
 	* @param base The base to get the ID of. Should be a boost::hana::type_c<...>
 	* @return A boost::hana::type_c<...> if \c base if in myBases(), else boost::hana::nothing
 	*/
 	template <typename T>
 	static constexpr auto getMyBaseID(T base)
 	{
-		return decltype(
-			boost::hana::if_(boost::hana::contains(myBases(), base), get_index_of_first_matching(myBases(), base), boost::hana::nothing)){};
+		return decltype(boost::hana::if_(boost::hana::contains(myBases(), base),
+										 get_index_of_first_matching(myBases(), base),
+										 boost::hana::nothing)){};
 	}
 
 	template <typename T>
@@ -305,8 +306,9 @@ struct Manager : ManagerBase
 			return boost::hana::if_(decltype(toTest)::type::isMyComponent(component), toTest, last);
 		};
 
-		return decltype(boost::hana::if_(isComponent(component), boost::hana::fold(allManagers(), boost::hana::type_c<boost::hana::none_t>, foldLam
-								 ))){};
+		return decltype(boost::hana::if_(
+			isComponent(component),
+			boost::hana::fold(allManagers(), boost::hana::type_c<boost::hana::none_t>, foldLam))){};
 	}
 
 	template <typename T>
@@ -512,7 +514,7 @@ struct Manager : ManagerBase
 	decltype(auto) getRefToManager(T manager)
 	{
 		BOOST_HANA_CONSTANT_ASSERT(boost::hana::contains(allManagers(), manager));
-		
+
 		return *basePtrStorage[getManagerID(manager)];
 	}
 
@@ -596,13 +598,11 @@ struct Manager : ManagerBase
 
 	ManagerData<Manager> myManagerData;
 
-
 	// storage for the actual components
 	decltype(boost::hana::transform(myStorageComponents(),
 									detail::removeTypeAddSegmentedMap)) storageComponentStorage;
 	std::array<std::vector<size_t>, boost::hana::size(myComponents())> componentEntityStorage;
-	decltype(
-		boost::hana::transform(allManagers(), detail::removeTypeAddPtr)) basePtrStorage;
+	decltype(boost::hana::transform(allManagers(), detail::removeTypeAddPtr)) basePtrStorage;
 	std::vector<Entity<Manager>> entityStorage;
 	std::deque<size_t> freeEntitySlots;
 
@@ -612,8 +612,7 @@ struct Manager : ManagerBase
 	size_t tickNumber = 0;
 
 	ManagerData<Manager>& getManagerData() { return myManagerData; }
-	Manager(const decltype(boost::hana::transform(myBases(),
-												  detail::removeTypeAddPtr))& bases = {})
+	Manager(const decltype(boost::hana::transform(myBases(), detail::removeTypeAddPtr))& bases = {})
 	{
 		using namespace boost::hana::literals;
 
@@ -632,7 +631,8 @@ struct Manager : ManagerBase
 				// a lambda that checks if a contains the base we want
 				auto hasBase = [&baseToSet_type](auto typeToCheck)
 				{
-					return boost::hana::contains(decltype(typeToCheck)::type::allManagers(), baseToSet_type);
+					return boost::hana::contains(decltype(typeToCheck)::type::allManagers(),
+												 baseToSet_type);
 				};
 
 				constexpr auto directBaseThatHasPtr_opt =

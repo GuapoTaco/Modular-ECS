@@ -26,7 +26,6 @@ BOOST_AUTO_TEST_CASE(remove_dups_test1)
 	BOOST_TEST(GET_HANA_CONSTANT_VALUE(boost::hana::contains(removed, boost::hana::type_c<char>)));
 	BOOST_TEST(
 		GET_HANA_CONSTANT_VALUE(boost::hana::contains(removed, boost::hana::type_c<double>)));
-	
 
 	BOOST_TEST(GET_HANA_CONSTANT_VALUE(boost::hana::size(removed)) == 3);
 }
