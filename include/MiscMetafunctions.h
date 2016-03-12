@@ -16,7 +16,7 @@ struct get_index_of_first_matching_t
 															  {
 																  return elem != element;
 															  }));
-
+		
 		return boost::hana::size(iterable) - size;
 	}
 };

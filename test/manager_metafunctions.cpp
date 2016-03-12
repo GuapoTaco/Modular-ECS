@@ -124,58 +124,6 @@ BOOST_AUTO_TEST_CASE(allTagComponents_test)
 	TEST_CONST((contains(child.allTagComponents(), type_c<data2>)));
 }
 
-BOOST_AUTO_TEST_CASE(numComponents_test)
-{
-	TEST_CONST((base.numComponents() == size_c<1>));
-	TEST_CONST((sister1.numComponents() == size_c<2>));
-	TEST_CONST((sister2.numComponents() == size_c<2>));
-	TEST_CONST((child.numComponents() == size_c<3>));
-}
-
-BOOST_AUTO_TEST_CASE(numMyComponents_test)
-{
-	TEST_CONST((base.numMyComponents() == size_c<1>));
-	TEST_CONST((sister1.numMyComponents() == size_c<1>));
-	TEST_CONST((sister2.numMyComponents() == size_c<1>));
-	TEST_CONST((child.numMyComponents() == size_c<0>));
-}
-
-BOOST_AUTO_TEST_CASE(isComponent_test)
-{
-	TEST_CONST(base.isComponent(type_c<data1>));
-	TEST_CONST(!base.isComponent(type_c<data2>));
-
-	TEST_CONST(sister1.isComponent(type_c<data1>));
-	TEST_CONST(sister1.isComponent(type_c<data2>));
-	TEST_CONST(!sister1.isComponent(type_c<data3>));
-
-	TEST_CONST(sister2.isComponent(type_c<data1>));
-	TEST_CONST(!sister2.isComponent(type_c<data2>));
-	TEST_CONST(sister2.isComponent(type_c<data3>));
-
-	TEST_CONST(child.isComponent(type_c<data1>));
-	TEST_CONST(child.isComponent(type_c<data2>));
-	TEST_CONST(child.isComponent(type_c<data3>));
-}
-
-BOOST_AUTO_TEST_CASE(isMyComponent_test)
-{
-	TEST_CONST(base.isComponent(type_c<data1>));
-	TEST_CONST(!base.isComponent(type_c<data2>));
-
-	TEST_CONST(!sister1.isComponent(type_c<data1>));
-	TEST_CONST(sister1.isComponent(type_c<data2>));
-	TEST_CONST(!sister1.isComponent(type_c<data3>));
-
-	TEST_CONST(!sister2.isComponent(type_c<data1>));
-	TEST_CONST(!sister2.isComponent(type_c<data2>));
-	TEST_CONST(sister2.isComponent(type_c<data3>));
-
-	TEST_CONST(!child.isComponent(type_c<data1>));
-	TEST_CONST(!child.isComponent(type_c<data2>));
-	TEST_CONST(!child.isComponent(type_c<data3>));
-}
-
 BOOST_AUTO_TEST_CASE(getComponentID_test)
 {
 	base.getComponentID(type_c<data1>);
@@ -186,19 +134,6 @@ BOOST_AUTO_TEST_CASE(getComponentID_test)
 
 	TEST_CONST((sister2.getComponentID(type_c<data1>) != sister2.getComponentID(type_c<data3>)));
 	TEST_CONST((sister2.getComponentID(type_c<data2>) == boost::hana::nothing));
-
-	TEST_CONST((child.getComponentID(type_c<data1>) != child.getComponentID(type_c<data2>)));
-	TEST_CONST((child.getComponentID(type_c<data2>) != child.getComponentID(type_c<data3>)));
-	TEST_CONST((child.getComponentID(type_c<data1>) != child.getComponentID(type_c<data3>)));
-}
-
-BOOST_AUTO_TEST_CASE(getMyComponentID_test)
-{
-	base.getComponentID(type_c<data1>);
-
-	TEST_CONST((sister1.getComponentID(type_c<data1>) != sister1.getComponentID(type_c<data2>)));
-
-	TEST_CONST((sister2.getComponentID(type_c<data1>) != sister2.getComponentID(type_c<data3>)));
 
 	TEST_CONST((child.getComponentID(type_c<data1>) != child.getComponentID(type_c<data2>)));
 	TEST_CONST((child.getComponentID(type_c<data2>) != child.getComponentID(type_c<data3>)));
