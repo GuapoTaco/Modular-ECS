@@ -1,8 +1,10 @@
 #include <boost/test/unit_test.hpp>
 
-#include <Manager.h>
+#include <manager.hpp>
 
 #define GET_HANA_CONSTANT_VALUE(name) ::std::decay_t<decltype(name)>::value
+
+using namespace ecs;
 
 BOOST_AUTO_TEST_CASE(get_index_of_first_matching_test)
 {

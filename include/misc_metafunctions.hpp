@@ -3,7 +3,7 @@
 
 #include <boost/hana.hpp>
 
-#include "Entity.h"
+#include "entity.hpp"
 
 struct get_index_of_first_matching_t
 {

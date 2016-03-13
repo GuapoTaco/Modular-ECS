@@ -1,9 +1,10 @@
 #include <boost/test/unit_test.hpp>
 
-#include <Manager.h>
+#include <manager.hpp>
 
 using namespace boost::hana::literals;
 using namespace boost::hana;
+using namespace ecs;
 
 struct data1
 {

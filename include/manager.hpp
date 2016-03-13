@@ -13,17 +13,19 @@
 #include <cassert>
 #include <iostream>
 
-#include "SegmentedMap.h"
+#include "segmented_map.hpp"
 
-#include "MiscMetafunctions.h"
-#include "Entity.h"
+#include "misc_metafunctions.hpp"
+#include "entity.hpp"
 
 #undef max
+
+namespace ecs {
 
 /// @brief The templated class that holds custom storage for managers
 /// Just override the template for your manager to use this!
 template <typename T>
-struct ManagerData
+struct manager_data
 {
 };
 
@@ -44,19 +46,11 @@ auto removeTypeAddPtr = [](auto arg)
 };
 }
 
-/// @brief For distinguising if a class is a manager at all
-struct ManagerBase
-{
-};
 
 /// @brief The core class of the library; Defines components,
-template <typename Components_, typename Bases_ = boost::hana::tuple<>>
-struct Manager : ManagerBase
+template <typename components_, typename bases_ = boost::hana::tuple<>>
+struct manager
 {
-	static_assert(decltype(is_tuple<Components_>())::value,
-				  "Components_ must be a boost::hana::tuple");
-	static_assert(decltype(is_tuple<Bases_>())::value, "Bases_ must be a boost::hana::tuple");
-
 	/**
 	 * @brief Gets the list of components owned by the manager. The size of this should be
 	 * getNumMyComponents()
@@ -276,11 +270,11 @@ struct Manager : ManagerBase
 	}
 
 	/**
-	* @brief Gets the ID of \c base in myBases()
-	*
-	* @param base The base to get the ID of. Should be a boost::hana::type_c<...>
-	* @return A boost::hana::type_c<...> if \c base if in myBases(), else boost::hana::nothing
-	*/
+	 * @brief Gets the ID of \c base in myBases()
+	 *
+	 * @param base The base to get the ID of. Should be a boost::hana::type_c<...>
+	 * @return A boost::hana::size_c<...> if \c base if in myBases(), else boost::hana::nothing
+	 */
 	template <typename T>
 	static constexpr auto getMyBaseID(T base)
 	{
@@ -290,12 +284,12 @@ struct Manager : ManagerBase
 	}
 
 	/**
-	* @brief Sees if \c signature is an okay signature, as in all of the elements of \c signature
-	* are in allComponents()
-	*
-	* @param base The singature to check, a boost:hana::tuple<boost::hana::type_c<...>, ...>.
-	* @return A boost::hana::bool_c<...>
-	*/
+	 * @brief Sees if \c signature is an okay signature, as in all of the elements of \c signature
+	 * are in allComponents()
+	 *
+	 * @param base The singature to check, a boost:hana::tuple<boost::hana::type_c<...>, ...>.
+	 * @return A boost::hana::bool_c<...>
+	 */
 	template <typename T>
 	static constexpr auto isPossibleSignature(T signature)
 	{
@@ -305,6 +299,13 @@ struct Manager : ManagerBase
 											})){};
 	}
 
+	/**
+	 * @brief Gets the owning manager from a given component
+	 * 
+	 * @param component A boost::hana::type_c<component>. 
+	 * 
+	 * @return A boost::hana::type_c<...> of the managers that owns \c component. If \c component isn't a component, then it returns boost::hana::nothing
+	 */
 	template <typename T>
 	static constexpr auto getManagerFromComponent(T component)
 	{
@@ -315,7 +316,7 @@ struct Manager : ManagerBase
 
 		return decltype(boost::hana::if_(
 			isComponent(component),
-			boost::hana::fold(allManagers(), boost::hana::type_c<boost::hana::none_t>, foldLam))){};
+			boost::hana::fold(allManagers(), boost::hana::type_c<boost::hana::none_t>, foldLam), boost::hana::nothing)){};
 	}
 
 	template <typename T>
@@ -603,7 +604,7 @@ struct Manager : ManagerBase
 			}
 	}
 
-	ManagerData<Manager> myManagerData;
+	manager_data<Manager> myManagerData;
 
 	// storage for the actual components
 	decltype(boost::hana::transform(myStorageComponents(),
@@ -612,7 +613,7 @@ struct Manager : ManagerBase
 	decltype(boost::hana::transform(allManagers(), detail::removeTypeAddPtr)) basePtrStorage;
 	std::vector<Entity<Manager>> entityStorage;
 
-	ManagerData<Manager>& getManagerData() { return myManagerData; }
+	manager_data<Manager>& getManagerData() { return myManagerData; }
 	Manager(const decltype(boost::hana::transform(myBases(), detail::removeTypeAddPtr))& bases = {})
 	{
 		using namespace boost::hana::literals;
@@ -664,3 +665,5 @@ struct Manager : ManagerBase
 		// TODO: add callbacks
 	}
 };
+
+}

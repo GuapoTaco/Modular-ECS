@@ -13,10 +13,10 @@ set (MOD_ECS_TEST ON CACHE BOOL "Compile the tests?")
 set(MOD_ECS_INCLUDE_DIRS "${Boost_INCLUDE_DIR};${Hana_INCLUDE_DIR};${CMAKE_CURRENT_SOURCE_DIR}/include/")
 
 set(MOD_ECS_HEADERS 
-	include/Entity.h
-	include/Manager.h
-	include/MiscMetafunctions.h
-	include/SegmentedMap.h
+	include/entity.h
+	include/manager.h
+	include/misc_metafunctions.h
+	include/segmented_map.h
 )
 
 if(${MOD_ECS_TEST})
