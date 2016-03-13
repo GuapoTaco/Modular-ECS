@@ -224,9 +224,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aaa9c5cd14d453d6b89e9a3f71979d5e5"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structManager.html#aaa9c5cd14d453d6b89e9a3f71979d5e5">getMyBaseID</a> (T base)</td></tr>
 <tr class="memdesc:aaa9c5cd14d453d6b89e9a3f71979d5e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ID of <code>base</code> in <a class="el" href="structManager.html#a8d9339740481438a46c25285d081e472" title="returns the direct bases of the manager. The size of this should be getNumBases() ...">myBases()</a>  <a href="#aaa9c5cd14d453d6b89e9a3f71979d5e5">More...</a><br /></td></tr>
 <tr class="separator:aaa9c5cd14d453d6b89e9a3f71979d5e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd63013e01c4de62d72e63a5ac1871e2"><td class="memTemplParams" colspan="2"><a class="anchor" id="afd63013e01c4de62d72e63a5ac1871e2"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:afd63013e01c4de62d72e63a5ac1871e2"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>isPossibleSignature</b> (T signature)</td></tr>
+<tr class="memitem:afd63013e01c4de62d72e63a5ac1871e2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:afd63013e01c4de62d72e63a5ac1871e2"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structManager.html#afd63013e01c4de62d72e63a5ac1871e2">isPossibleSignature</a> (T signature)</td></tr>
+<tr class="memdesc:afd63013e01c4de62d72e63a5ac1871e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sees if <code>signature</code> is an okay signature, as in all of the elements of <code>signature</code> are in <a class="el" href="structManager.html#a89a6a4a7a60abc5342a6855d573c0565" title="Gets all the components, including the ones that are owned by base (direct and indirect) managers...">allComponents()</a>  <a href="#afd63013e01c4de62d72e63a5ac1871e2">More...</a><br /></td></tr>
 <tr class="separator:afd63013e01c4de62d72e63a5ac1871e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46cb020c782aa603fd61d341e99aba6b"><td class="memTemplParams" colspan="2"><a class="anchor" id="a46cb020c782aa603fd61d341e99aba6b"></a>
 template&lt;typename T &gt; </td></tr>
@@ -278,18 +278,6 @@ decltype(boost::hana::transform(<a class="el" href="structManager.html#a7e612361
 <tr class="memitem:a856d14e5ce62398351baf585bd027a37"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a856d14e5ce62398351baf585bd027a37"></a>
 std::vector&lt; <a class="el" href="structEntity.html">Entity</a>&lt; <a class="el" href="structManager.html">Manager</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>entityStorage</b></td></tr>
 <tr class="separator:a856d14e5ce62398351baf585bd027a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfd4f3bbcae60f2ca099a25ac1812616"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abfd4f3bbcae60f2ca099a25ac1812616"></a>
-std::deque&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>freeEntitySlots</b></td></tr>
-<tr class="separator:abfd4f3bbcae60f2ca099a25ac1812616"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4172ed6cf83572da976a5f2254a34ff"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad4172ed6cf83572da976a5f2254a34ff"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasBegunPlay</b> = false</td></tr>
-<tr class="separator:ad4172ed6cf83572da976a5f2254a34ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf83fe2dc348f733bea440c2372841b8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf83fe2dc348f733bea440c2372841b8"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasBeenCleandUp</b> = false</td></tr>
-<tr class="separator:acf83fe2dc348f733bea440c2372841b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d5b1352f7599622d72973979f91b4ce"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1d5b1352f7599622d72973979f91b4ce"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>tickNumber</b> = 0</td></tr>
-<tr class="separator:a1d5b1352f7599622d72973979f91b4ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename Components_, typename Bases_ = boost::hana::tuple&lt;&gt;&gt;<br />
@@ -702,6 +690,43 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A boost::hana::size_c&lt;...&gt; if <em>component</em> is in <a class="el" href="structManager.html#aaeea7153919c9ea242ad709a43a30139" title="Gets all the tag components, including those defined by base (direct and indirect) managers...">allTagComponents()</a>, else boost::hana::nothing </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="afd63013e01c4de62d72e63a5ac1871e2"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Components_ , typename Bases_  = boost::hana::tuple&lt;&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static constexpr auto <a class="el" href="structManager.html">Manager</a>&lt; Components_, Bases_ &gt;::isPossibleSignature </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>signature</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sees if <code>signature</code> is an okay signature, as in all of the elements of <code>signature</code> are in <a class="el" href="structManager.html#a89a6a4a7a60abc5342a6855d573c0565" title="Gets all the components, including the ones that are owned by base (direct and indirect) managers...">allComponents()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The singature to check, a boost:hana::tuple&lt;boost::hana::type_c&lt;...&gt;, ...&gt;. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A boost::hana::bool_c&lt;...&gt; </dd></dl>
 
 </div>
 </div>
