@@ -3,8 +3,6 @@
 
 #include <boost/hana.hpp>
 
-#include "entity.hpp"
-
 struct get_index_of_first_matching_t
 {
 	template <typename Iterable, typename T>

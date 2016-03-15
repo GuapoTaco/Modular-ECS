@@ -1,6 +1,6 @@
 #include <boost/test/unit_test.hpp>
 
-#include <manager.hpp>
+#include <ecs/manager.hpp>
 
 #define GET_HANA_CONSTANT_VALUE(name) ::std::decay_t<decltype(name)>::value
 

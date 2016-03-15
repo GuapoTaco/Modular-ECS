@@ -1,6 +1,6 @@
 #include <boost/test/unit_test.hpp>
 
-#include <manager.hpp>
+#include <ecs/manager.hpp>
 
 using namespace boost::hana::literals;
 using namespace boost::hana;
@@ -18,125 +18,125 @@ struct data3
 	char b;
 };
 
-auto base = Manager<decltype(make_type_tuple<data1>)>{};
+auto base = manager<decltype(make_type_tuple<data1>)>{};
 
-auto sister1 = Manager<decltype(make_type_tuple<data2>), decltype(make_type_tuple<decltype(base)>)>{
+auto sister1 = manager<decltype(make_type_tuple<data2>), decltype(make_type_tuple<decltype(base)>)>{
 	make_tuple(&base)};
-auto sister2 = Manager<decltype(make_type_tuple<data3>), decltype(make_type_tuple<decltype(base)>)>{
+auto sister2 = manager<decltype(make_type_tuple<data3>), decltype(make_type_tuple<decltype(base)>)>{
 	make_tuple(&base)};
 
-auto child = Manager<decltype(make_type_tuple<>),
+auto child = manager<decltype(make_type_tuple<>),
 					 decltype(make_type_tuple<decltype(sister1), decltype(sister2)>)>{
 	::make_tuple(&sister1, &sister2)};
 
 #define TEST_CONST(a) BOOST_TEST(decltype(a)::value)
 
-BOOST_AUTO_TEST_CASE(myComponents_test)
+BOOST_AUTO_TEST_CASE(my_components_test)
 {
-	TEST_CONST(base.myComponents() == make_type_tuple<data1>);
-	TEST_CONST(sister1.myComponents() == make_type_tuple<data2>);
-	TEST_CONST(sister2.myComponents() == make_type_tuple<data3>);
+	TEST_CONST(base.my_components() == make_type_tuple<data1>);
+	TEST_CONST(sister1.my_components() == make_type_tuple<data2>);
+	TEST_CONST(sister2.my_components() == make_type_tuple<data3>);
 
-	TEST_CONST(is_empty(child.myComponents()));
+	TEST_CONST(is_empty(child.my_components()));
 }
 
-BOOST_AUTO_TEST_CASE(myBases_test)
+BOOST_AUTO_TEST_CASE(my_bases_test)
 {
-	TEST_CONST(base.myBases() == make_type_tuple<>);
-	TEST_CONST(sister1.myBases() == make_type_tuple<decltype(base)>);
-	TEST_CONST(sister2.myBases() == make_type_tuple<decltype(base)>);
-	TEST_CONST((child.myBases() == make_type_tuple<decltype(sister1), decltype(sister2)>));
+	TEST_CONST(base.my_bases() == make_type_tuple<>);
+	TEST_CONST(sister1.my_bases() == make_type_tuple<decltype(base)>);
+	TEST_CONST(sister2.my_bases() == make_type_tuple<decltype(base)>);
+	TEST_CONST((child.my_bases() == make_type_tuple<decltype(sister1), decltype(sister2)>));
 }
 
-BOOST_AUTO_TEST_CASE(allManagers_test)
+BOOST_AUTO_TEST_CASE(all_managers_test)
 {
-	TEST_CONST(base.allManagers() == make_type_tuple<decltype(base)>);
+	TEST_CONST(base.all_managers() == make_type_tuple<decltype(base)>);
 
-	TEST_CONST((contains(sister1.allManagers(), type_c<decltype(base)>)));
-	TEST_CONST((contains(sister1.allManagers(), type_c<decltype(sister1)>)));
+	TEST_CONST((contains(sister1.all_managers(), type_c<decltype(base)>)));
+	TEST_CONST((contains(sister1.all_managers(), type_c<decltype(sister1)>)));
 
-	TEST_CONST((contains(sister2.allManagers(), type_c<decltype(base)>)));
-	TEST_CONST((contains(sister2.allManagers(), type_c<decltype(sister2)>)));
+	TEST_CONST((contains(sister2.all_managers(), type_c<decltype(base)>)));
+	TEST_CONST((contains(sister2.all_managers(), type_c<decltype(sister2)>)));
 
-	TEST_CONST((contains(child.allManagers(), type_c<decltype(base)>)));
-	TEST_CONST((contains(child.allManagers(), type_c<decltype(sister2)>)));
-	TEST_CONST((contains(child.allManagers(), type_c<decltype(sister1)>)));
-	TEST_CONST((contains(child.allManagers(), type_c<decltype(child)>)));
+	TEST_CONST((contains(child.all_managers(), type_c<decltype(base)>)));
+	TEST_CONST((contains(child.all_managers(), type_c<decltype(sister2)>)));
+	TEST_CONST((contains(child.all_managers(), type_c<decltype(sister1)>)));
+	TEST_CONST((contains(child.all_managers(), type_c<decltype(child)>)));
 }
 
-BOOST_AUTO_TEST_CASE(allComponents_test)
+BOOST_AUTO_TEST_CASE(all_components_test)
 {
-	TEST_CONST(base.allComponents() == make_type_tuple<data1>);
+	TEST_CONST(base.all_components() == make_type_tuple<data1>);
 
-	TEST_CONST((contains(sister1.allComponents(), type_c<data1>)));
-	TEST_CONST((contains(sister1.allComponents(), type_c<data2>)));
+	TEST_CONST((contains(sister1.all_components(), type_c<data1>)));
+	TEST_CONST((contains(sister1.all_components(), type_c<data2>)));
 
-	TEST_CONST((contains(sister2.allComponents(), type_c<data1>)));
-	TEST_CONST((contains(sister2.allComponents(), type_c<data3>)));
+	TEST_CONST((contains(sister2.all_components(), type_c<data1>)));
+	TEST_CONST((contains(sister2.all_components(), type_c<data3>)));
 
-	TEST_CONST((contains(child.allComponents(), type_c<data1>)));
-	TEST_CONST((contains(child.allComponents(), type_c<data2>)));
-	TEST_CONST((contains(child.allComponents(), type_c<data3>)));
+	TEST_CONST((contains(child.all_components(), type_c<data1>)));
+	TEST_CONST((contains(child.all_components(), type_c<data2>)));
+	TEST_CONST((contains(child.all_components(), type_c<data3>)));
 }
 
-BOOST_AUTO_TEST_CASE(myStorageComponents_test)
+BOOST_AUTO_TEST_CASE(my_storage_components_test)
 {
-	TEST_CONST((contains(base.myStorageComponents(), type_c<data1>)));
+	TEST_CONST((contains(base.my_storage_components(), type_c<data1>)));
 
-	TEST_CONST((is_empty(sister1.myStorageComponents())));
+	TEST_CONST((is_empty(sister1.my_storage_components())));
 
-	TEST_CONST((contains(sister2.myStorageComponents(), type_c<data3>)));
+	TEST_CONST((contains(sister2.my_storage_components(), type_c<data3>)));
 
-	TEST_CONST((is_empty(child.myStorageComponents())));
+	TEST_CONST((is_empty(child.my_storage_components())));
 }
 
-BOOST_AUTO_TEST_CASE(myTagComponents_test)
+BOOST_AUTO_TEST_CASE(my_tag_components_test)
 {
-	TEST_CONST((is_empty(base.myTagComponents())));
+	TEST_CONST((is_empty(base.my_tag_components())));
 
-	TEST_CONST((contains(sister1.myTagComponents(), type_c<data2>)));
+	TEST_CONST((contains(sister1.my_tag_components(), type_c<data2>)));
 
-	TEST_CONST((is_empty(sister2.myTagComponents())));
+	TEST_CONST((is_empty(sister2.my_tag_components())));
 
-	TEST_CONST((is_empty(child.myTagComponents())));
+	TEST_CONST((is_empty(child.my_tag_components())));
 }
 
-BOOST_AUTO_TEST_CASE(allStorageComponents_test)
+BOOST_AUTO_TEST_CASE(all_storage_components_test)
 {
-	TEST_CONST((contains(base.allStorageComponents(), type_c<data1>)));
+	TEST_CONST((contains(base.all_storage_components(), type_c<data1>)));
 
-	TEST_CONST((contains(sister1.allStorageComponents(), type_c<data1>)));
+	TEST_CONST((contains(sister1.all_storage_components(), type_c<data1>)));
 
-	TEST_CONST((contains(sister2.allStorageComponents(), type_c<data1>)));
-	TEST_CONST((contains(sister2.allComponents(), type_c<data3>)));
+	TEST_CONST((contains(sister2.all_storage_components(), type_c<data1>)));
+	TEST_CONST((contains(sister2.all_components(), type_c<data3>)));
 
-	TEST_CONST((contains(child.allStorageComponents(), type_c<data1>)));
-	TEST_CONST((contains(child.allStorageComponents(), type_c<data3>)));
+	TEST_CONST((contains(child.all_storage_components(), type_c<data1>)));
+	TEST_CONST((contains(child.all_storage_components(), type_c<data3>)));
 }
 
-BOOST_AUTO_TEST_CASE(allTagComponents_test)
+BOOST_AUTO_TEST_CASE(all_tag_components_test)
 {
-	TEST_CONST((is_empty(base.allTagComponents())));
+	TEST_CONST((is_empty(base.all_tag_components())));
 
-	TEST_CONST((contains(sister1.allTagComponents(), type_c<data2>)));
+	TEST_CONST((contains(sister1.all_tag_components(), type_c<data2>)));
 
-	TEST_CONST((is_empty(sister2.allTagComponents())));
+	TEST_CONST((is_empty(sister2.all_tag_components())));
 
-	TEST_CONST((contains(child.allTagComponents(), type_c<data2>)));
+	TEST_CONST((contains(child.all_tag_components(), type_c<data2>)));
 }
 
-BOOST_AUTO_TEST_CASE(getComponentID_test)
+BOOST_AUTO_TEST_CASE(get_component_id_test)
 {
-	base.getComponentID(type_c<data1>);
-	TEST_CONST((base.getComponentID(type_c<data3>) == boost::hana::nothing));
+	base.get_component_id(type_c<data1>);
+	TEST_CONST((base.get_component_id(type_c<data3>) == boost::hana::nothing));
 
-	TEST_CONST((sister1.getComponentID(type_c<data1>) != sister1.getComponentID(type_c<data2>)));
-	TEST_CONST((sister1.getComponentID(type_c<data3>) == boost::hana::nothing));
+	TEST_CONST((sister1.get_component_id(type_c<data1>) != sister1.get_component_id(type_c<data2>)));
+	TEST_CONST((sister1.get_component_id(type_c<data3>) == boost::hana::nothing));
 
-	TEST_CONST((sister2.getComponentID(type_c<data1>) != sister2.getComponentID(type_c<data3>)));
-	TEST_CONST((sister2.getComponentID(type_c<data2>) == boost::hana::nothing));
+	TEST_CONST((sister2.get_component_id(type_c<data1>) != sister2.get_component_id(type_c<data3>)));
+	TEST_CONST((sister2.get_component_id(type_c<data2>) == boost::hana::nothing));
 
-	TEST_CONST((child.getComponentID(type_c<data1>) != child.getComponentID(type_c<data2>)));
-	TEST_CONST((child.getComponentID(type_c<data2>) != child.getComponentID(type_c<data3>)));
-	TEST_CONST((child.getComponentID(type_c<data1>) != child.getComponentID(type_c<data3>)));
+	TEST_CONST((child.get_component_id(type_c<data1>) != child.get_component_id(type_c<data2>)));
+	TEST_CONST((child.get_component_id(type_c<data2>) != child.get_component_id(type_c<data3>)));
+	TEST_CONST((child.get_component_id(type_c<data1>) != child.get_component_id(type_c<data3>)));
 }

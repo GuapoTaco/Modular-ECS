@@ -40,7 +40,7 @@
 //
 template <typename Key, typename Value, typename Compare = std::less<Key>,
 		  typename Alloc = std::allocator<std::pair<Key, Value>>>
-class SegmentedMap
+class segmented_map
 {
 public:
 	static_assert(std::is_integral<Key>::value, "Must be integral");
@@ -69,11 +69,11 @@ public:
 	///////////////
 
 	// Default Constructor + Construct from the allocator
-	SegmentedMap(const key_compare& comp_ = key_compare{}) : comp{comp_} {}
+	segmented_map(const key_compare& comp_ = key_compare{}) : comp{comp_} {}
 	// Range constructor (with or without compare)
 	template <typename ForwardIterator>
 
-	SegmentedMap(ForwardIterator begin, ForwardIterator end,
+	segmented_map(ForwardIterator begin, ForwardIterator end,
 				 const key_compare& comp_ = key_compare{})
 		: comp{comp_}
 	{
@@ -84,16 +84,16 @@ public:
 	}
 
 	// copy constructor
-	SegmentedMap(const SegmentedMap& other) = default;
+	segmented_map(const segmented_map& other) = default;
 
 	// move constructor
-	SegmentedMap(SegmentedMap&& other) = default;
+	segmented_map(segmented_map&& other) = default;
 
 	// initializer_list constuctor
-	SegmentedMap(std::initializer_list<value_type> il) : SegmentedMap{il.begin(), il.end()} {}
+	segmented_map(std::initializer_list<value_type> il) : segmented_map{il.begin(), il.end()} {}
 	/////////////
 	// DESTRUCTOR
-	~SegmentedMap() = default;
+	~segmented_map() = default;
 	/////////////
 
 	////////////
@@ -101,29 +101,29 @@ public:
 	////////////
 
 	// copy assignment operator
-	SegmentedMap& operator=(const SegmentedMap& other)
+	segmented_map& operator=(const segmented_map& other)
 	{
 		// alloc_and_storage.second() = other.alloc_and_storage.second();
 		return *this;
 	}
 
 	// move assignment operator
-	SegmentedMap& operator=(SegmentedMap&& other)
+	segmented_map& operator=(segmented_map&& other)
 	{
 		// alloc_and_storage.second() = std::move(other.alloc_and_storage.second());
 		return *this;
 	}
 
 	// initializer_list assignment operator
-	SegmentedMap& operator=(std::initializer_list<value_type> il)
+	segmented_map& operator=(std::initializer_list<value_type> il)
 	{
-		//*this = SegmentedMap{il};
+		//*this = segmented_map{il};
 		return *this;
 	}
 
 	// comparision operators
-	bool operator==(const SegmentedMap& other);
-	bool operator!=(const SegmentedMap& other);
+	bool operator==(const segmented_map& other);
+	bool operator!=(const segmented_map& other);
 
 	////////////
 	// ITERATORS
@@ -133,7 +133,7 @@ public:
 												   boost::bidirectional_traversal_tag>
 	{
 		size_t index;
-		const SegmentedMap* owning_container;
+		const segmented_map* owning_container;
 
 		bool is_valid()
 		{
@@ -206,7 +206,7 @@ public:
 		: boost::iterator_facade<iterator, value_type, boost::bidirectional_traversal_tag>
 	{
 		size_t index;
-		SegmentedMap* owning_container;
+		segmented_map* owning_container;
 
 		bool is_valid()
 		{
@@ -340,7 +340,7 @@ public:
 		if (alloc_and_storage.second().size() >= key / segment_size ||
 			alloc_and_storage.second()[key / segment_size])
 			{
-				throw std::out_of_range("Out of range in SegmentedMap");
+				throw std::out_of_range("Out of range in segmented_map");
 			}
 		return *(alloc_and_storage.second()[key / segment_size])[key % segment_size];
 	}
@@ -350,7 +350,7 @@ public:
 		if (alloc_and_storage.second().size() >= key / segment_size ||
 			alloc_and_storage.second()[key / segment_size])
 			{
-				throw std::out_of_range("Out of range in SegmentedMap");
+				throw std::out_of_range("Out of range in segmented_map");
 			}
 		return *(alloc_and_storage.second()[key / segment_size])[key % segment_size];
 	}
@@ -610,7 +610,7 @@ public:
 	// OTHER FUNCTIONS
 	//////////////////
 
-	void swap(const SegmentedMap& other)
+	void swap(const segmented_map& other)
 	{
 		return std::swap(alloc_and_storage, other.alloc_and_storage);
 	}
