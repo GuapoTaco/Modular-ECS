@@ -1,29 +1,30 @@
 cmake_minimum_required(VERSION 3.0)
 
+project(ModularECS VERSION 0.1.0)
+
+# Options
+option (MOD_ECS_TEST "Compile the tests?" ON)
+
 find_package(Boost REQUIRED)
 
-find_package(Hana REQUIRED)
-
-set(VERSION_MAJOR 0)
-set(VERSION_MINOR 1)
-set(VERSION_PATCH 0)
-
-set (MOD_ECS_TEST ON CACHE BOOL "Compile the tests?")
-
-set(MOD_ECS_INCLUDE_DIRS "${Boost_INCLUDE_DIR};${Hana_INCLUDE_DIR};${CMAKE_CURRENT_SOURCE_DIR}/include/")
-
-set(MOD_ECS_HEADERS 
+set(MOD_ECS_HEADERS
 	include/ecs/entity.h
 	include/ecs/manager.h
 	include/ecs/misc_metafunctions.h
 	include/ecs/segmented_map.h
 )
 
+add_library(ModularECS INTERFACE)
+target_include_directories(ModularECS INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(ModularECS INTERFACE Boost::boost)
+target_compile_options(ModularECS INTERFACE -std=c++17)
+
 if(${MOD_ECS_TEST})
+	enable_testing()
 	add_subdirectory(test)
 endif(${MOD_ECS_TEST})
 
-	
+
 find_package(Doxygen)
 
 if(${DOXYGEN_FOUND})
